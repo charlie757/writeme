@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "898806448792",
+    "project_id": "writeme-cf580",
+    "storage_bucket": "writeme-cf580.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:898806448792:android:a399a8b983919df902c6ed",
+        "android_client_info": {
+          "package_name": "com.writeme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "898806448792-lpmglkhoors1pd6f5mvrh4g3uvemm196.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCz943_fxxFmw5XAW82IzdaOOmw98fdKO8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "898806448792-lpmglkhoors1pd6f5mvrh4g3uvemm196.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "898806448792-fs7k9odkf90ts3bm8fangj5vbutt779o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.writeme"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
