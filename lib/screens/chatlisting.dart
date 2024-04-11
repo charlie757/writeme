@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../models/settingsm.dart';
 
-
 class ChatListing extends StatefulWidget {
-
-  ChatListing({ Key? key }) : super(key: key);
+  ChatListing({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -16,7 +14,6 @@ class ChatListing extends StatefulWidget {
 }
 
 class ChatListingState extends State<ChatListing> {
-
   List<SettingsM> items = [];
   List<SettingsM> originalItems = [];
 
@@ -37,10 +34,7 @@ class ChatListingState extends State<ChatListing> {
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    return Scaffold(
-        backgroundColor: Colors.white,
-        body: getMenuList()
-        );
+    return Scaffold(backgroundColor: Colors.white, body: getMenuList());
   }
 
   Widget getMenuList() {
@@ -55,7 +49,6 @@ class ChatListingState extends State<ChatListing> {
   }
 
   Container getCellItem(int idx) {
-
     SettingsM item = items[idx];
 
     // String imgName = "globe.png";
@@ -74,33 +67,46 @@ class ChatListingState extends State<ChatListing> {
                       // color: Colors.red,
                       borderRadius: BorderRadius.circular(30.0),
                     ),
-                      alignment: Alignment.center,
+                    alignment: Alignment.center,
+                    height: 60,
+                    width: 60,
+                    child: Image.asset(
+                      'assets/images/profile_pic.png',
+                      fit: BoxFit.fill,
                       height: 60,
                       width: 60,
-                      child: Image.asset(
-                        'assets/images/profile_pic.png',
-                        fit: BoxFit.fill,
-                        height: 60,
-                        width: 60,
-                      ),
+                    ),
                   ),
-                  SizedBox(width: 15,),
+                  SizedBox(
+                    width: 15,
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                  Text(
-                      item.title!,
-                      textAlign: TextAlign.start,
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold,).copyWith(color: Colors.black)
-                  ),
-                      SizedBox(height: 5,),
-                    Text(
-                        item.image!,
-                        textAlign: TextAlign.start,
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.normal,).copyWith(color: Colors.grey)
-                    ),
-                  ],)
+                      Text(item.title!,
+                          textAlign: TextAlign.start,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
+                                fontWeight: FontWeight.bold,
+                              )
+                              .copyWith(color: Colors.black)),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(item.image!,
+                          textAlign: TextAlign.start,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
+                                fontWeight: FontWeight.normal,
+                              )
+                              .copyWith(color: Colors.grey)),
+                    ],
+                  )
                 ])));
   }
 
@@ -116,10 +122,6 @@ class ChatListingState extends State<ChatListing> {
       items.addAll(originalItems);
     }
 
-    setState(() {
-
-    });
+    setState(() {});
   }
-
 }
-

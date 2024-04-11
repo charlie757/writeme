@@ -72,6 +72,7 @@ class AppTranslation extends Translations {
 
           //Contact listing
           "contacts": "Contacts",
+          "report": "Report",
 
           //Create Group
           "create_group": "Create Group",
@@ -191,6 +192,7 @@ class AppTranslation extends Translations {
 
           //Contact listing
           "contacts": "جهات الاتصال",
+          "report": "تقرير",
 
           //Create Group
           "create_group": "إنشاء مجموعة",
@@ -309,6 +311,7 @@ class AppTranslation extends Translations {
 
           //Contact listing
           "contacts": "संपर्क",
+          "report": "प्रतिवेदन",
 
           //Create Group
           "create_group": "समूह बनाना",
@@ -431,6 +434,7 @@ class AppTranslation extends Translations {
 
           //Contact listing
           "contacts": "контакты",
+          "report": "Отчет",
 
           //Create Group
           "create_group": "создать группу",
@@ -549,9 +553,9 @@ class AppTranslation extends Translations {
           "delete_account": "Borrar cuenta",
           'termscondition': "Términos & Condiciones",
           "delete_account_message": "¿Quieres eliminar la cuenta?",
-
           //Contact listing
           "contacts": "contactos",
+          "report": "Informe",
 
           //Create Group
           "create_group": "crea un grupo",
@@ -673,6 +677,7 @@ class AppTranslation extends Translations {
 
           //Contact listing
           "contacts": "Kontakte",
+          "report": "Bericht",
 
           //Create Group
           "create_group": "Gruppe erstellen",
@@ -795,6 +800,7 @@ class AppTranslation extends Translations {
 
           //Contact listing
           "contacts": "Contacts",
+          "report": "Rapport",
 
           //Create Group
           "create_group": "créer un groupe",
@@ -913,6 +919,7 @@ class AppTranslation extends Translations {
 
           //Contact listing
           "contacts": "联系人",
+          "report": "报告",
 
           //Create Group
           "create_group": "创建组",

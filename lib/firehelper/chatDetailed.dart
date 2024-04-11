@@ -87,15 +87,15 @@ class _ChatDetailedState extends State<ChatDetailed> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffKey,
-      backgroundColor: Color.fromRGBO(137, 207, 240, 1.0),
+      backgroundColor: const Color.fromRGBO(137, 207, 240, 1.0),
       body: Column(
         children: [
           AppBar(
-            iconTheme: IconThemeData(
+            iconTheme: const IconThemeData(
               color: Colors.black, //change your color here
             ),
-            backgroundColor: Color.fromRGBO(137, 207, 240, 1.0),
-            title: Container(
+            backgroundColor: const Color.fromRGBO(137, 207, 240, 1.0),
+            title: SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
               child: Row(
                 // mainAxisAlignment: MainAxisAlignment.center,
@@ -139,10 +139,25 @@ class _ChatDetailedState extends State<ChatDetailed> {
                                 child: CupertinoActivityIndicator()),
                           )),
                   SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                  Text(userData['name'].toString(),
-                      style: TextStyle(
-                        color: Colors.black,
-                      )),
+                  Flexible(
+                    child: Text(userData['name'].toString(),
+                        style: TextStyle(
+                          color: Colors.black,
+                        )),
+                  ),
+                  PopupMenuButton(itemBuilder: (
+                    contextx,
+                  ) {
+                    return [
+                      PopupMenuItem(
+                        onTap: () {
+                          showReportSheet();
+                        },
+                        child: Text("report".tr),
+                        value: '/hello',
+                      ),
+                    ];
+                  })
                 ],
               ),
             ),
@@ -298,7 +313,6 @@ class _ChatDetailedState extends State<ChatDetailed> {
                         // Future.delayed(Duration(seconds: 2), () {
 
                         // });
-
                       },
                       child: Container(height: 40, child: Text('doc'.tr))),
                   InkWell(
@@ -313,6 +327,42 @@ class _ChatDetailedState extends State<ChatDetailed> {
         });
   }
 
+  showReportSheet() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            width: double.infinity,
+            padding:
+                const EdgeInsets.only(left: 10, right: 10, top: 25, bottom: 50),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: 50,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.grey, width: 1)),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      hint: const Text('Select report type'),
+                      items: <String>['A', 'B', 'C', 'D'].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (_) {},
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
+        });
+  }
+
   getPermission() async {
     await [
       Permission.photos,
@@ -322,40 +372,40 @@ class _ChatDetailedState extends State<ChatDetailed> {
   }
 
   openDocFiles() async {
-
     getPermission();
 
     try {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.any,
-      withData: true,
-      // allowedExtensions: ['pdf', 'doc', 'docx', "xls"],
-    );
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.any,
+        withData: true,
+        // allowedExtensions: ['pdf', 'doc', 'docx', "xls"],
+      );
 
+      if (result != null) {
+        PlatformFile file = result.files.first;
 
-    if (result != null) {
-      PlatformFile file = result.files.first;
-
-      if (file.extension!.contains("pdf") || file.extension!.contains("doc") || file.extension!.contains("docx") || file.extension!.contains("xls")){
-        if (isBigFile(File(file.path!))) {
-          Util.showErrorToast("big_file_size".tr);
+        if (file.extension!.contains("pdf") ||
+            file.extension!.contains("doc") ||
+            file.extension!.contains("docx") ||
+            file.extension!.contains("xls")) {
+          if (isBigFile(File(file.path!))) {
+            Util.showErrorToast("big_file_size".tr);
+          } else {
+            uploadImage(File(file.path!));
+          }
         } else {
-          uploadImage(File(file.path!));
+          Util.showErrorToast("File type should be doc, docx, pdf, xls");
         }
-      }else{
-        Util.showErrorToast("File type should be doc, docx, pdf, xls");
+
+        print(file.name);
+        print(file.bytes);
+        print(file.size);
+        print(file.extension);
+        print(file.path);
+      } else {
+        // User canceled the picker
+        Util.showErrorToast(result.toString() + "");
       }
-
-      print(file.name);
-      print(file.bytes);
-      print(file.size);
-      print(file.extension);
-      print(file.path);
-
-    } else {
-      // User canceled the picker
-      Util.showErrorToast(result.toString()+"");
-    }
     } on PlatformException catch (e) {
       Util.showErrorToast('Platform Unsupported operation' + e.toString());
     } catch (e) {
@@ -685,10 +735,10 @@ class _ChatDetailedState extends State<ChatDetailed> {
             ),
             Container(height: 5),
             InkWell(
-                onTap: () =>{
-                  // _launchUrl(message['photo'].toString()),
-                  Get.to(() => WebViewDoc(message['photo'].toString()))
-                },
+                onTap: () => {
+                      // _launchUrl(message['photo'].toString()),
+                      Get.to(() => WebViewDoc(message['photo'].toString()))
+                    },
 
                 // _launchUrl("https://www.clickdimensions.com/links/TestPDFfile.pdf"),
                 child: Container(
@@ -717,13 +767,12 @@ class _ChatDetailedState extends State<ChatDetailed> {
   }
 
   Future<void> _launchUrl(String url) async {
-
-    if (Platform.isAndroid){
+    if (Platform.isAndroid) {
       // final Uri _url = Uri.parse(url);
       if (!await launch(url)) {
         throw 'Could not launch $url';
       }
-    }else {
+    } else {
       final Uri _url = Uri.parse(url);
       if (!await launchUrl(_url)) {
         throw 'Could not launch $_url';

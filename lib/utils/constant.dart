@@ -34,6 +34,7 @@ class Constants {
   static final GET_PROFILE = BASEURL + 'getProfile/';
   static final GER_USER_LIST = BASEURL + 'getUserList';
   static final CONTACT_US = BASEURL + 'inquiry';
+  static final DELETE_ACCOUNT = BASEURL + 'deleteAccount';
 
   static final ABOUT_US_EN = IMGURL + 'page/about-us/en';
   static final ABOUT_US_DE = IMGURL + 'page/about-us/de';
@@ -61,6 +62,15 @@ class Constants {
   static final PRIVACYPOLICYAR = IMGURL + 'page/privacy-policy/ar';
   static final PRIVACYPOLICYRU = IMGURL + 'page/privacy-policy/ru';
   static final PRIVACYPOLICYHI = IMGURL + 'page/privacy-policy/hi';
+
+  static final TERMSCONDITIONEN = IMGURL + 'page/terms-conditions/en';
+  static final TERMSCONDITIONDE = IMGURL + 'page/terms-conditions/de';
+  static final TERMSCONDITIONCH = IMGURL + 'page/terms-conditions/ch';
+  static final TERMSCONDITIONSP = IMGURL + 'page/terms-conditions/sp';
+  static final TERMSCONDITIONFR = IMGURL + 'page/terms-conditions/fr';
+  static final TERMSCONDITIONAR = IMGURL + 'page/terms-conditions/ar';
+  static final TERMSCONDITIONRU = IMGURL + 'page/terms-conditions/ru';
+  static final TERMSCONDITIONHI = IMGURL + 'page/terms-conditions/hi';
 
   static final FAQEN = IMGURL + 'page/faq/en';
   static final FAQDE = IMGURL + 'page/faq/de';

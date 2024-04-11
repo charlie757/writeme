@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +8,8 @@ import 'package:sourcecode/screens/contactus.dart';
 import 'package:sourcecode/screens/langsettings.dart';
 import 'package:sourcecode/screens/updateprofile.dart';
 import 'package:sourcecode/screens/commonwebview.dart';
-
+import 'package:sourcecode/utils/networkhelper.dart';
+import 'package:http/http.dart' as http;
 import '../models/settingsm.dart';
 import '../utils/constant.dart';
 import '../utils/util.dart';
@@ -87,6 +90,7 @@ class SettingsState extends State<Settings> {
                 } else if (index == 4) {
                   getPrivacyPolicyURL();
                 } else if (index == 5) {
+                  getTermsConditionURL();
                   // Get.to(() => ContactUs());
                 } else if (index == 6) {
                   Get.to(() => ContactUs());
@@ -107,7 +111,7 @@ class SettingsState extends State<Settings> {
                       context: context,
                       title: "delete_account_message".tr,
                       yesTap: () {
-                        Util.logout(context);
+                        accountDeleteApiFunction();
                       },
                       noTap: () {
                         Get.back();
@@ -205,6 +209,36 @@ class SettingsState extends State<Settings> {
         ));
   }
 
+  getTermsConditionURL() async {
+    String lang = await Util.getStringValue("SelectedLanguageName");
+    String url = "";
+
+    if (lang == "england") {
+      url = Constants.TERMSCONDITIONEN;
+    } else if (lang == "china") {
+      url = Constants.TERMSCONDITIONCH;
+    } else if (lang == "spain") {
+      url = Constants.TERMSCONDITIONSP;
+    } else if (lang == "france") {
+      url = Constants.TERMSCONDITIONFR;
+    } else if (lang == "arabic") {
+      url = Constants.TERMSCONDITIONAR;
+    } else if (lang == "russian") {
+      url = Constants.TERMSCONDITIONRU;
+    } else if (lang == "indian") {
+      url = Constants.TERMSCONDITIONHI;
+    } else if (lang == "german") {
+      url = Constants.TERMSCONDITIONDE;
+    } else {
+      url = Constants.TERMSCONDITIONEN;
+    }
+
+    Get.to(() => CommonWebView(
+          url,
+          "termscondition".tr,
+        ));
+  }
+
   getFaqURL() async {
     String lang = await Util.getStringValue("SelectedLanguageName");
     String url = "";
@@ -293,6 +327,29 @@ class SettingsState extends State<Settings> {
           url,
           "about_us".tr,
         ));
+  }
+
+  accountDeleteApiFunction() async {
+    final response =
+        await http.post(Uri.parse('Constants.DELETE_ACCOUNT'), headers: {
+      "authorization": "bearer ${Constants.token}",
+      "lang": Util.isEnglishLan() ? "en" : "de"
+    });
+    print(response.request);
+    log(response.body);
+    // String responseStr = "";
+
+    // var params = {};
+
+    // NetworkHelper networkHelper = NetworkHelper(Constants.DELETE_ACCOUNT);
+    // await networkHelper
+    //     .getServerResponseWithHeader(params, Constants.token)
+    //     .then((value) {
+    //   responseStr = value;
+    //   print(value);
+    // });
+
+    // return responseStr;
   }
 
   Future<void> customDialogBox(

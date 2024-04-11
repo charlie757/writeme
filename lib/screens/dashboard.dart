@@ -14,7 +14,6 @@ import 'package:sourcecode/screens/settings.dart';
 import '../utils/constant.dart';
 import '../utils/util.dart';
 
-
 class Dashboard extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -23,7 +22,8 @@ class Dashboard extends StatefulWidget {
   }
 }
 
-class DashboardState extends State<Dashboard> with SingleTickerProviderStateMixin {
+class DashboardState extends State<Dashboard>
+    with SingleTickerProviderStateMixin {
   int selectedTabIndex = 0;
   late TabController tabController;
 
@@ -51,13 +51,13 @@ class DashboardState extends State<Dashboard> with SingleTickerProviderStateMixi
 
     Util.getStringValue("Token").then((value) {
       // setState(() {
-        Constants.token = value;
+      Constants.token = value;
       // });
     });
 
     Util.getIntValue("UserID").then((value) {
       // setState(() {
-        Constants.userID = value.toString();
+      Constants.userID = value.toString();
       // });
     });
 
@@ -84,7 +84,6 @@ class DashboardState extends State<Dashboard> with SingleTickerProviderStateMixi
         Constants.profileImg = value;
       });
     });*/
-
   }
 
   getPermission() async {
@@ -103,15 +102,16 @@ class DashboardState extends State<Dashboard> with SingleTickerProviderStateMixi
     return GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
-            backgroundColor: Colors.white,
-            body: Stack(
-              children: [
-                getHeaderView(),
-                getTabBarView(),
-                //getSearchBar(),
-              ],
-            ),
-            bottomNavigationBar: menuWidget(),));
+          backgroundColor: Colors.white,
+          body: Stack(
+            children: [
+              getHeaderView(),
+              getTabBarView(),
+              //getSearchBar(),
+            ],
+          ),
+          bottomNavigationBar: menuWidget(),
+        ));
   }
 
   Widget menuWidget() {
@@ -157,138 +157,154 @@ class DashboardState extends State<Dashboard> with SingleTickerProviderStateMixi
 
   Container getSelectedView(String imageName, String title) {
     return Container(
-      height: 50,
-      width: 65,
-      // decoration: BoxDecoration(
-          // color: Constants.primaryThemeColor,
-          // borderRadius: BorderRadius.circular(22.5)),
-      child: Column(children: [Container(
-          alignment: Alignment.center,
-          height: 25,
-          width: 30,
-          child: Image.asset(
-            'assets/images/' + imageName,
-            width: 30,
-            height: 25,
-            fit: BoxFit.contain,
-          )),
-          Text(
-          title,
-    textAlign: TextAlign.start,
-    style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold,).copyWith(color: Colors.black)
-    )]));
+        height: 50,
+        width: 65,
+        // decoration: BoxDecoration(
+        // color: Constants.primaryThemeColor,
+        // borderRadius: BorderRadius.circular(22.5)),
+        child: Column(children: [
+          Container(
+              alignment: Alignment.center,
+              height: 25,
+              width: 30,
+              child: Image.asset(
+                'assets/images/' + imageName,
+                width: 30,
+                height: 25,
+                fit: BoxFit.contain,
+              )),
+          Text(title,
+              textAlign: TextAlign.start,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(
+                    fontWeight: FontWeight.bold,
+                  )
+                  .copyWith(color: Colors.black))
+        ]));
   }
 
   Container getUnSelectedView(String imageName, String title) {
     return Container(
-      height: 50,
-      width: 65,
-      // decoration: BoxDecoration(
-      //     borderRadius: BorderRadius.circular(22.5)),
-      child: Column(children:[ Container(
-          alignment: Alignment.center,
-          height: 25,
-          width: 30,
-          child: Image.asset(
-            'assets/images/' + imageName,
-            width: 30,
-            height: 25,
-            fit: BoxFit.contain,
-          )),
-        Text(
-            title,
-            textAlign: TextAlign.start,
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold,).copyWith(color: Color.fromRGBO(119, 119, 119, 1.0))
-        )])
-    );
+        height: 50,
+        width: 65,
+        // decoration: BoxDecoration(
+        //     borderRadius: BorderRadius.circular(22.5)),
+        child: Column(children: [
+          Container(
+              alignment: Alignment.center,
+              height: 25,
+              width: 30,
+              child: Image.asset(
+                'assets/images/' + imageName,
+                width: 30,
+                height: 25,
+                fit: BoxFit.contain,
+              )),
+          Text(title,
+              textAlign: TextAlign.start,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(
+                    fontWeight: FontWeight.bold,
+                  )
+                  .copyWith(color: Color.fromRGBO(119, 119, 119, 1.0)))
+        ]));
   }
 
   void updateSearchQuery(String newQuery) {
-
-    if (selectedTabIndex == 0){
+    if (selectedTabIndex == 0) {
       chatListingStateKey.currentState!.updateSearchQuery(newQuery);
-    }else{
+    } else {
       groupChatListingStateKey.currentState!.updateSearchQuery(newQuery);
     }
-
-
 
     setState(() {});
   }
 
-  Widget getSearchBar(){
+  Widget getSearchBar() {
     return Positioned(
       top: 85,
       left: 0,
       right: 0,
       child: Container(
-        // margin: EdgeInsets.only(left: 10, right: 10, top: 5),
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              // spreadRadius: 3,
-              blurRadius: 7,
-                offset: Offset(0.0, 0.75)
-            ),
-          ],
-        ),
-        height: 50,
-        child: Stack(children: [Positioned(top: 0, left: 0, bottom: 0, right: 0, child: TextField(
-          controller: searchTC,
-          onChanged: (value) => updateSearchQuery(value),
-          style: TextStyle(
-              color: Colors.black,
-              fontSize: 15,
-              // fontFamily: "Nexa",
-              fontWeight: FontWeight.w400),
-          decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                  color: Colors.white),
-              borderRadius: BorderRadius.circular(25),
-            ),
-            border: OutlineInputBorder(
-              // borderSide: BorderSide.none,
-              borderSide: BorderSide(
-                  color: Colors.white),
-              borderRadius: BorderRadius.circular(25),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.white),
-              borderRadius: BorderRadius.circular(25),
-            ),
-            contentPadding: EdgeInsets.only(left: 15, top: 5, right: 15),
-            hintText: 'search'.tr,
-            fillColor: Colors.white,
-            filled: true,
-            // color: Color.fromRGBO(189, 189, 189, 1.0),
+          // margin: EdgeInsets.only(left: 10, right: 10, top: 5),
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  // spreadRadius: 3,
+                  blurRadius: 7,
+                  offset: Offset(0.0, 0.75)),
+            ],
           ),
-        )),
-          Positioned(top: 4, bottom: 5, right: 5, child: Container(
-            // margin: EdgeInsets.only(right: 10),
-            height: 50,
-            width: 40,
-            decoration: BoxDecoration(
-                color: Constants.primaryThemeColor.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(25)),
-            child: Container(
-              alignment: Alignment.center,
-              height: 20,
-              width: 20,
-              child: Image.asset(
-                'assets/images/search.png',
-                fit: BoxFit.contain,
-                height: 20,
-                width: 20,
-              ),),
-          )),])
-      ),
+          height: 50,
+          child: Stack(children: [
+            Positioned(
+                top: 0,
+                left: 0,
+                bottom: 0,
+                right: 0,
+                child: TextField(
+                  controller: searchTC,
+                  onChanged: (value) => updateSearchQuery(value),
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                      // fontFamily: "Nexa",
+                      fontWeight: FontWeight.w400),
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    border: OutlineInputBorder(
+                      // borderSide: BorderSide.none,
+                      borderSide: BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    contentPadding:
+                        EdgeInsets.only(left: 15, top: 5, right: 15),
+                    hintText: 'search'.tr,
+                    fillColor: Colors.white,
+                    filled: true,
+                    // color: Color.fromRGBO(189, 189, 189, 1.0),
+                  ),
+                )),
+            Positioned(
+                top: 4,
+                bottom: 5,
+                right: 5,
+                child: Container(
+                  // margin: EdgeInsets.only(right: 10),
+                  height: 50,
+                  width: 40,
+                  decoration: BoxDecoration(
+                      color: Constants.primaryThemeColor.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(25)),
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: 20,
+                    width: 20,
+                    child: Image.asset(
+                      'assets/images/search.png',
+                      fit: BoxFit.contain,
+                      height: 20,
+                      width: 20,
+                    ),
+                  ),
+                )),
+          ])),
     );
   }
 
-  Widget getHeaderView(){
+  Widget getHeaderView() {
     return Positioned(
       top: 0,
       left: 0,
@@ -300,28 +316,38 @@ class DashboardState extends State<Dashboard> with SingleTickerProviderStateMixi
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(margin: EdgeInsets.only(top: 25, left: 25), height: 40,
-                width: 40, child:IconButton(
-                    onPressed: () => {
-                      Get.to( () => Settings())
-                    },
+            Container(
+                margin: EdgeInsets.only(top: 25, left: 25),
+                height: 40,
+                width: 40,
+                child: IconButton(
+                    onPressed: () => {Get.to(() => Settings())},
                     icon: Image.asset(
                       'assets/images/settings.png',
                     ))),
-            Expanded(flex: 1, child: Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.only(top: 25),
-                child: Text("all_chats".tr,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontFamily: "Inter",
-                        fontWeight: FontWeight.w700)))),
-            Container(margin: EdgeInsets.only(top: 30, right: 25), height: 40,
-                width: 40, child:IconButton(
+            Expanded(
+                flex: 1,
+                child: Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(top: 25),
+                    child: Text("all_chats".tr,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontFamily: "Inter",
+                            fontWeight: FontWeight.w700)))),
+            Container(
+                margin: EdgeInsets.only(top: 30, right: 25),
+                height: 40,
+                width: 40,
+                child: IconButton(
                     onPressed: () => {
-                      Get.to(() => ContactList(isFromCreateGroup: tabController.index == 0 ? false : true, isReturnUser: false,))
-                    },
+                          Get.to(() => ContactList(
+                                isFromCreateGroup:
+                                    tabController.index == 0 ? false : true,
+                                isReturnUser: false,
+                              ))
+                        },
                     icon: new Image.asset(
                       'assets/images/contacts.png',
                     ))),
@@ -331,7 +357,7 @@ class DashboardState extends State<Dashboard> with SingleTickerProviderStateMixi
     );
   }
 
-  Widget getTabBarView(){
+  Widget getTabBarView() {
     return Positioned(
       top: 80,
       // top: 155,
@@ -340,13 +366,15 @@ class DashboardState extends State<Dashboard> with SingleTickerProviderStateMixi
       bottom: 0,
       child: DefaultTabController(
         length: 2,
-        child:TabBarView(
-            controller: tabController,
-            children: [
-              ChatScreen(),//ChatListing(key: chatListingStateKey),
-              GroupChatListing(key: groupChatListingStateKey),//Container(child: Icon(Icons.directions_car)),
-            ],
-          ),
+        child: TabBarView(
+          controller: tabController,
+          children: [
+            ChatScreen(), //ChatListing(key: chatListingStateKey),
+            GroupChatListing(
+                key:
+                    groupChatListingStateKey), //Container(child: Icon(Icons.directions_car)),
+          ],
+        ),
       ),
     );
   }
@@ -359,10 +387,10 @@ class DashboardState extends State<Dashboard> with SingleTickerProviderStateMixi
 
   void initLocalNoti() {
     FlutterLocalNotificationsPlugin flutterNotificationPlugin =
-    FlutterLocalNotificationsPlugin();
+        FlutterLocalNotificationsPlugin();
 
     var initializationSettingsAndroid =
-    new AndroidInitializationSettings('ic_launcher');
+        new AndroidInitializationSettings('ic_launcher');
 
     var initializationSettingsIOS = new IOSInitializationSettings();
 
@@ -388,7 +416,7 @@ class DashboardState extends State<Dashboard> with SingleTickerProviderStateMixi
         iOS: iOSPlatformChannelSpecifics);
 
     FlutterLocalNotificationsPlugin flutterNotificationPlugin =
-    FlutterLocalNotificationsPlugin();
+        FlutterLocalNotificationsPlugin();
 
     String payload = "";
     bool isOpenedChat = false;
@@ -425,7 +453,7 @@ class DashboardState extends State<Dashboard> with SingleTickerProviderStateMixi
         iOS: iOSPlatformChannelSpecifics);
 
     FlutterLocalNotificationsPlugin flutterNotificationPlugin =
-    FlutterLocalNotificationsPlugin();
+        FlutterLocalNotificationsPlugin();
 
     flutterNotificationPlugin.show(1, title, body, platformChannelSpecifics,
         payload: null);
@@ -492,14 +520,14 @@ class DashboardState extends State<Dashboard> with SingleTickerProviderStateMixi
     // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
 
-  moveToChatScreen(){
+  moveToChatScreen() {
     //tabController.index = 0;
-    Get.offAll( () => Dashboard());
+    Get.offAll(() => Dashboard());
   }
 
-  moveToGroupChatScreen(){
+  moveToGroupChatScreen() {
     //tabController.index = 1;
-    Get.offAll( () => Dashboard());
+    Get.offAll(() => Dashboard());
   }
 
   checkQuestNotificationData(String message) {
@@ -510,7 +538,6 @@ class DashboardState extends State<Dashboard> with SingleTickerProviderStateMixi
       if (type == "chat") {
         moveToChatScreen();
       } else {
-
         moveToGroupChatScreen();
 
         /*var userId = data["user_id"].toString();
@@ -539,4 +566,3 @@ class DashboardState extends State<Dashboard> with SingleTickerProviderStateMixi
     }
   }
 }
-
