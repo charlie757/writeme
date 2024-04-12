@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -14,8 +16,10 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
+import 'package:http/http.dart' as http;
 // import 'package:video_thumbnail/video_thumbnail.dart';
 
 import '../screens/commonwebview.dart';
@@ -42,6 +46,8 @@ class ChatDetailed extends StatefulWidget {
 
 class _ChatDetailedState extends State<ChatDetailed> {
   late String myId, userId;
+  String? selectedReportType;
+  final reportMessageController = TextEditingController();
   late TextEditingController messageController;
   Timestamp past = new Timestamp.fromDate(new DateTime(2019));
   late DatabaseHelper dbHelper;
@@ -54,6 +60,8 @@ class _ChatDetailedState extends State<ChatDetailed> {
 
   Color userColor = Color.fromRGBO(236, 240, 244, 1.0);
   Color oppoColor = Color.fromRGBO(119, 0, 174, 1.0);
+
+  List<String> reportTypeList = ['Block', 'Other'];
 
   @override
   void initState() {
@@ -85,6 +93,7 @@ class _ChatDetailedState extends State<ChatDetailed> {
 
   @override
   Widget build(BuildContext context) {
+    print("userId....$userId");
     return Scaffold(
       key: _scaffKey,
       backgroundColor: const Color.fromRGBO(137, 207, 240, 1.0),
@@ -139,9 +148,9 @@ class _ChatDetailedState extends State<ChatDetailed> {
                                 child: CupertinoActivityIndicator()),
                           )),
                   SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                  Flexible(
+                  Expanded(
                     child: Text(userData['name'].toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.black,
                         )),
                   ),
@@ -165,7 +174,7 @@ class _ChatDetailedState extends State<ChatDetailed> {
           Flexible(
             child: _chatBody(userId),
           ),
-          new Divider(
+          const Divider(
             height: 1.0,
           ),
           SizedBox(
@@ -329,38 +338,141 @@ class _ChatDetailedState extends State<ChatDetailed> {
 
   showReportSheet() {
     showModalBottomSheet(
+        isScrollControlled: true,
         context: context,
         builder: (context) {
-          return Container(
-            width: double.infinity,
-            padding:
-                const EdgeInsets.only(left: 10, right: 10, top: 25, bottom: 50),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: 50,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.grey, width: 1)),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      hint: const Text('Select report type'),
-                      items: <String>['A', 'B', 'C', 'D'].map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (_) {},
+          return StatefulBuilder(builder: (context, state) {
+            return Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.only(
+                    left: 15, right: 15, top: 25, bottom: 50),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'report'.tr,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          fontSize: 20,
+                          fontFamily: "OpenSans",
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black),
                     ),
-                  ),
-                )
-              ],
-            ),
-          );
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      width: double.infinity,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                              color: Constants.primaryThemeColor, width: 1)),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          iconEnabledColor: Constants.primaryThemeColor,
+                          padding: const EdgeInsets.only(left: 15, right: 0),
+                          value: selectedReportType,
+                          hint: const Text('Select report type'),
+                          items: reportTypeList.map((String value) {
+                            return DropdownMenuItem<String>(
+                              enabled: true,
+                              value: value,
+                              child: Text(
+                                value.toString(),
+                                style: const TextStyle(),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (val) {
+                            print(val);
+                            selectedReportType = val;
+                            state(() {});
+                          },
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    messageTextField(),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    getSubmitBtn()
+                  ],
+                ),
+              ),
+            );
+          });
         });
+  }
+
+  messageTextField() {
+    return TextFormField(
+      maxLines: 3,
+      controller: reportMessageController,
+      decoration: InputDecoration(
+          hintText: 'Enter your reason here...',
+          hintStyle: const TextStyle(fontSize: 14, color: Colors.black38),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: Constants.primaryThemeColor,
+              )),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: Constants.primaryThemeColor,
+              ))),
+    );
+  }
+
+  Container getSubmitBtn() {
+    return Container(
+        margin: const EdgeInsets.only(top: 10),
+        child: GestureDetector(
+            onTap: () async {
+              if (selectedReportType != null &&
+                  reportMessageController.text.isNotEmpty) {
+                FocusScope.of(context).unfocus();
+                EasyLoading.show();
+                sendReportDetailsOnServer().then((value) {
+                  EasyLoading.dismiss();
+                  var jsonData = json.decode(value);
+                  if (jsonData['status'] == 1) {
+                    Get.back();
+                    Util.showSuccessToast(jsonData['message']);
+                    reportMessageController.clear();
+                    selectedReportType = null;
+                    setState(() {});
+                  } else {
+                    Util.showErrorToast(jsonData['message']);
+                  }
+                  print(value);
+                });
+              }
+            },
+            child: Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(25)),
+                  color: Constants.primaryThemeColor),
+              height: 50,
+              child: Text(
+                'submit'.tr,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    fontSize: 16,
+                    fontFamily: "OpenSans",
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black),
+              ),
+            )));
   }
 
   getPermission() async {
@@ -871,6 +983,28 @@ class _ChatDetailedState extends State<ChatDetailed> {
     sentNotification("");
     await dbHelper.sendMessage(userId, myId, false, "", path, "");
     // Navigator.pop(context);
+  }
+
+  Future<String> sendReportDetailsOnServer() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print("userId....s..${prefs.getInt('UserID')}");
+    String responseStr = "";
+
+    var params = {
+      'user_id': prefs.getInt('UserID').toString(),
+      'message': reportMessageController.text,
+      'type': selectedReportType
+    };
+
+    NetworkHelper networkHelper = NetworkHelper(Constants.REPORT_USER);
+    await networkHelper
+        .getServerResponseWithHeader(params, Constants.token)
+        .then((value) {
+      responseStr = value;
+      print(value);
+    });
+
+    return responseStr;
   }
 
   Future<String> sentNotification(String msg) async {

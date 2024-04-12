@@ -24,8 +24,11 @@ class Constants {
   static String FCMSERVERKEY =
       'AAAA0UUKApg:APA91bFRMmTat2lDjAeQPwbrdSrTkN545XitAs7HTmG-wE9cTfdHLXJFz3iT910RFA-d8P_3kdEgRipsPcgmIQ3y49ff3n4Ch6WzUjXbsBCg0ERx0l0uax96kmb2f3SrIes6WvmCSYQO';
 
-  static String BASEURL = 'https://api.writemee.com/api/'; //live
-  static String IMGURL = 'https://api.writemee.com/'; //live
+  // static String BASEURL = 'https://api.writemee.com/api/'; //live
+  static String BASEURL =
+      'https://forthproitsolution.work/writeme/api/'; // local
+  // static String IMGURL = 'https://api.writemee.com/'; //live
+  static String IMGURL = 'https://forthproitsolution.work/writeme/'; // local
 
   static final LOGINURL = BASEURL + 'androidlogin';
   static final OTPLOGIN = BASEURL + 'otplogin';
@@ -35,6 +38,7 @@ class Constants {
   static final GER_USER_LIST = BASEURL + 'getUserList';
   static final CONTACT_US = BASEURL + 'inquiry';
   static final DELETE_ACCOUNT = BASEURL + 'deleteAccount';
+  static final REPORT_USER = BASEURL + 'userreport';
 
   static final ABOUT_US_EN = IMGURL + 'page/about-us/en';
   static final ABOUT_US_DE = IMGURL + 'page/about-us/de';

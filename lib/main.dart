@@ -11,8 +11,7 @@ import 'utils/apptranslation.dart';
 
 // https://rrtutors.com/tutorials/Google-Translator-Flutter
 
-void main() async{
-
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
@@ -31,6 +30,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    FocusScope.of(context).unfocus();
     // context.locale = Locale('en', 'US');
     return GetMaterialApp(
       // localizationsDelegates: context.localizationDelegates,
@@ -42,9 +42,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: GoogleFonts.poppins().fontFamily,
         appBarTheme: const AppBarTheme(
-          color: Color.fromRGBO(148, 213, 241, 1.0),
-          elevation: 0
-        ),
+            color: Color.fromRGBO(148, 213, 241, 1.0), elevation: 0),
       ),
       debugShowCheckedModeBanner: false,
       home: Splash(),

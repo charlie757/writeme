@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:sourcecode/screens/contactus.dart';
 import 'package:sourcecode/screens/langsettings.dart';
@@ -111,7 +113,19 @@ class SettingsState extends State<Settings> {
                       context: context,
                       title: "delete_account_message".tr,
                       yesTap: () {
-                        accountDeleteApiFunction();
+                        Navigator.pop(context);
+                        EasyLoading.show();
+                        sendReportDetailsOnServer().then((value) {
+                          var jsonValue = json.decode(value);
+                          EasyLoading.dismiss();
+                          if (jsonValue['status'] == 1) {
+                            Util.showSuccessToast(jsonValue['message']);
+                            Util.logout(context);
+                          } else {
+                            Util.showErrorToast(jsonValue['message']);
+                          }
+                          print(value);
+                        });
                       },
                       noTap: () {
                         Get.back();
@@ -329,27 +343,22 @@ class SettingsState extends State<Settings> {
         ));
   }
 
-  accountDeleteApiFunction() async {
-    final response =
-        await http.post(Uri.parse('Constants.DELETE_ACCOUNT'), headers: {
-      "authorization": "bearer ${Constants.token}",
-      "lang": Util.isEnglishLan() ? "en" : "de"
+  Future<String> sendReportDetailsOnServer() async {
+    String responseStr = "";
+
+    var params = {
+      // 'type': selectedReportType
+    };
+
+    NetworkHelper networkHelper = NetworkHelper(Constants.DELETE_ACCOUNT);
+    await networkHelper
+        .getServerResponseWithHeader(params, Constants.token)
+        .then((value) {
+      responseStr = value;
+      print(value);
     });
-    print(response.request);
-    log(response.body);
-    // String responseStr = "";
 
-    // var params = {};
-
-    // NetworkHelper networkHelper = NetworkHelper(Constants.DELETE_ACCOUNT);
-    // await networkHelper
-    //     .getServerResponseWithHeader(params, Constants.token)
-    //     .then((value) {
-    //   responseStr = value;
-    //   print(value);
-    // });
-
-    // return responseStr;
+    return responseStr;
   }
 
   Future<void> customDialogBox(
