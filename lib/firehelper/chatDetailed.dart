@@ -49,7 +49,7 @@ class _ChatDetailedState extends State<ChatDetailed> {
   String? selectedReportType;
   final reportMessageController = TextEditingController();
   late TextEditingController messageController;
-  Timestamp past = new Timestamp.fromDate(new DateTime(2019));
+  Timestamp past = Timestamp.fromDate(new DateTime(2019));
   late DatabaseHelper dbHelper;
   late String chatId;
   late OfflineStorage offlineStorage;
@@ -986,16 +986,16 @@ class _ChatDetailedState extends State<ChatDetailed> {
   }
 
   Future<String> sendReportDetailsOnServer() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    print("userId....s..${prefs.getInt('UserID')}");
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // print("userId....s..${prefs.getInt('UserID')}");
     String responseStr = "";
-
+    // print("userId.....dvdf...$userId");
+    // print("myId...$myId");
     var params = {
-      'user_id': prefs.getInt('UserID').toString(),
+      'user_id': userId.toString(),
       'message': reportMessageController.text,
       'type': selectedReportType
     };
-
     NetworkHelper networkHelper = NetworkHelper(Constants.REPORT_USER);
     await networkHelper
         .getServerResponseWithHeader(params, Constants.token)
