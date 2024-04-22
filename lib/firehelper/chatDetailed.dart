@@ -35,10 +35,11 @@ import 'imageViewer.dart';
 // https://stackoverflow.com/questions/64764111/undefined-class-storagereference-when-using-firebase-storage
 
 class ChatDetailed extends StatefulWidget {
+  String id;
   String currentUserFireId = "";
   Map<String, dynamic> userData;
 
-  ChatDetailed(this.userData, this.currentUserFireId);
+  ChatDetailed(this.id, this.userData, this.currentUserFireId);
 
   @override
   _ChatDetailedState createState() => _ChatDetailedState();
@@ -262,7 +263,8 @@ class _ChatDetailedState extends State<ChatDetailed> {
               if (message.isNotEmpty) {
                 messageController.clear();
                 sentNotification(message);
-                await dbHelper.sendMessage(userId, myId, true, message, "", "");
+                await dbHelper.sendMessage(
+                    widget.id.toString(), userId, myId, true, message, "", "");
               }
             },
             child: Icon(
@@ -955,7 +957,8 @@ class _ChatDetailedState extends State<ChatDetailed> {
     }
 
     sentNotification("");
-    await dbHelper.sendMessage(userId, myId, false, "", url, thumbnailURL);
+    await dbHelper.sendMessage(
+        widget.id.toString(), userId, myId, false, "", url, thumbnailURL);
     EasyLoading.dismiss();
 
     // setState(() => uploadBool = true);
@@ -981,7 +984,8 @@ class _ChatDetailedState extends State<ChatDetailed> {
     Reference pathReference = storage.ref().child(imageFile.path);
     String path = await pathReference.getDownloadURL();
     sentNotification("");
-    await dbHelper.sendMessage(userId, myId, false, "", path, "");
+    await dbHelper.sendMessage(
+        widget.id.toString(), userId, myId, false, "", path, "");
     // Navigator.pop(context);
   }
 
@@ -992,7 +996,7 @@ class _ChatDetailedState extends State<ChatDetailed> {
     // print("userId.....dvdf...$userId");
     // print("myId...$myId");
     var params = {
-      'user_id': userId.toString(),
+      'user_id': widget.id,
       'message': reportMessageController.text,
       'type': selectedReportType
     };

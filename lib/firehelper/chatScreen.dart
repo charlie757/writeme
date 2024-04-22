@@ -11,7 +11,6 @@ import 'Database.dart';
 import 'OfflineStore.dart';
 import 'chatDetailed.dart';
 
-
 class ChatScreen extends StatefulWidget {
   @override
   _ChatScreenState createState() => _ChatScreenState();
@@ -44,8 +43,7 @@ class _ChatScreenState extends State<ChatScreen> {
               getChatList(),
             ],
           ),
-        )
-    );
+        ));
   }
 
   Positioned getChatList() {
@@ -71,15 +69,18 @@ class _ChatScreenState extends State<ChatScreen> {
                     return Center(
                       child: Text('no_message_yet'.tr),
                     );
-                  return MediaQuery.removePadding(context: context,
+                  return MediaQuery.removePadding(
+                      context: context,
                       removeTop: true,
                       child: ListView.separated(
                         itemCount: docs.length,
-                        separatorBuilder: (context, index) =>Divider(height: 10, color: Colors.transparent),
+                        separatorBuilder: (context, index) =>
+                            Divider(height: 10, color: Colors.transparent),
                         itemBuilder: (context, index) {
                           var t = docs[index].data() as Map<String, dynamic>;
                           List<dynamic> members = t['members'];
                           String lastMsg = t['lastMessage'] ?? "";
+                          String id = t['id'] ?? '';
                           String senderId = t['lastSenderId'] ?? "";
                           String userId;
                           userId = members.elementAt(0) == myId
@@ -88,93 +89,127 @@ class _ChatScreenState extends State<ChatScreen> {
                           return FutureBuilder(
                             future: dbHelper.getUserByUsername(userId),
                             builder: (context, _snapshot) {
-                              if (_snapshot.hasData && (_snapshot.data! as DocumentSnapshot).data() != null) {
-                                DocumentSnapshot doc = _snapshot.data! as DocumentSnapshot;
-                                Map<String, dynamic> _user = doc.data() as Map<String, dynamic>;
-                                return  TextButton(
-                              // splashColor:Colors.transparent,
+                              if (_snapshot.hasData &&
+                                  (_snapshot.data! as DocumentSnapshot)
+                                          .data() !=
+                                      null) {
+                                DocumentSnapshot doc =
+                                    _snapshot.data! as DocumentSnapshot;
+                                Map<String, dynamic> _user =
+                                    doc.data() as Map<String, dynamic>;
+                                return TextButton(
+                                  // splashColor:Colors.transparent,
                                   onPressed: (() {
-                              String myUid = Constants.FirebaseUID;
-                              Navigator.push(context, MaterialPageRoute(
-                              builder: (context) =>
-                              ChatDetailed(_user, myUid,)));
-                              }),child: Card(
-                                  margin: EdgeInsets.only(left: 8.0, right: 8.0),
-                                  elevation: 0.0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                  ),
-
+                                    String myUid = Constants.FirebaseUID;
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ChatDetailed(
+                                                  id,
+                                                  _user,
+                                                  myUid,
+                                                )));
+                                  }),
+                                  child: Card(
+                                    margin:
+                                        EdgeInsets.only(left: 8.0, right: 8.0),
+                                    elevation: 0.0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5.0),
+                                    ),
                                     child: Container(
                                       margin: EdgeInsets.all(10.0),
-                                      height:60, child: Center(
+                                      height: 60,
+                                      child: Center(
                                         child: Row(
                                           children: [
-                                            _user["photo"].toString().isEmpty ? Container(height: 50, width: 50, child: Image.asset(
-                                                'assets/images/user.png',
-                                                fit: BoxFit.fill,
-                                              )) : CachedNetworkImage(
-                                                imageUrl: _user['photo'].toString(),
-                                                placeholder: (context, url) => CupertinoActivityIndicator(),
-                                                imageBuilder: (context, image) => Container(
-                                                  height: 50, width: 50,
-                                                  decoration: BoxDecoration(
-                                                      image: DecorationImage(
-                                                        image: image,
-                                                        fit: BoxFit.cover,),
-                                                      borderRadius: BorderRadius.all(Radius.circular(25)),
+                                            _user["photo"].toString().isEmpty
+                                                ? Container(
+                                                    height: 50,
+                                                    width: 50,
+                                                    child: Image.asset(
+                                                      'assets/images/user.png',
+                                                      fit: BoxFit.fill,
+                                                    ))
+                                                : CachedNetworkImage(
+                                                    imageUrl: _user['photo']
+                                                        .toString(),
+                                                    placeholder: (context,
+                                                            url) =>
+                                                        CupertinoActivityIndicator(),
+                                                    imageBuilder:
+                                                        (context, image) =>
+                                                            Container(
+                                                      height: 50,
+                                                      width: 50,
+                                                      decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                          image: image,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    25)),
+                                                      ),
+                                                    ),
+                                                    errorWidget: (context, url,
+                                                            error) =>
+                                                        CircleAvatar(
+                                                            backgroundColor:
+                                                                Colors.grey,
+                                                            child:
+                                                                CupertinoActivityIndicator()),
                                                   ),
-
-                                                ),
-                                                errorWidget: (context, url, error) => CircleAvatar(
-                                                    backgroundColor: Colors.grey,
-                                                    child: CupertinoActivityIndicator()
-                                                ),
-                                              ),
                                             SizedBox(
-                                              width:10,
+                                              width: 10,
                                             ),
                                             Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [SizedBox(
-                                              width: MediaQuery
-                                                  .of(context)
-                                                  .size
-                                                  .width *
-                                                  0.43,
-                                              child: Text(
-                                                _user['name'].toString(),
-                                                style: TextStyle(
-                                                  fontSize: 17,
-                                                  fontWeight: FontWeight.w700,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.43,
+                                                  child: Text(
+                                                    _user['name'].toString(),
+                                                    style: TextStyle(
+                                                      fontSize: 17,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.43,
+                                                  child: new Text(
+                                                    getLastMsgText(lastMsg,
+                                                        senderId), // "Yoo",
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                      fontSize: 10,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
                                             ),
-                                              SizedBox(
-                                                width: MediaQuery
-                                                    .of(context)
-                                                    .size
-                                                    .width *
-                                                    0.43,
-                                                child: new Text(
-                                                  getLastMsgText(lastMsg, senderId), // "Yoo",
-                                                          maxLines: 1,
-                                                          overflow: TextOverflow.ellipsis,
-                                                          style: TextStyle(
-                                                            fontSize: 10,
-                                                            fontWeight: FontWeight.w600,
-                                                          ),
-                                                        ),
-                                              )],),
                                             SizedBox(
-                                              width: MediaQuery
-                                                  .of(context)
-                                                  .size
-                                                  .width *
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
                                                   0.25,
                                               child: Align(
-                                                alignment: Alignment
-                                                    .centerRight,
+                                                alignment:
+                                                    Alignment.centerRight,
                                                 // child: _timeDivider(docs[index]
                                                 //     .data()['lastActive']),
                                                 //   var t = docs[index].data() as Map<String, dynamic>;;
@@ -198,17 +233,12 @@ class _ChatScreenState extends State<ChatScreen> {
                                 ),
                                 child: Container(
                                   margin: EdgeInsets.all(10.0),
-                                  height: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .height * 0.06,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.06,
                                   child: Center(
                                     child: CircularProgressIndicator(
                                       valueColor: new AlwaysStoppedAnimation(
-                                        Theme
-                                            .of(context)
-                                            .colorScheme
-                                            .primary,
+                                        Theme.of(context).colorScheme.primary,
                                       ),
                                     ),
                                   ),
@@ -222,10 +252,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 return Center(
                   child: CircularProgressIndicator(
                     valueColor: new AlwaysStoppedAnimation(
-                      Theme
-                          .of(context)
-                          .colorScheme
-                          .primary,
+                      Theme.of(context).colorScheme.primary,
                     ),
                   ),
                 );
@@ -235,10 +262,7 @@ class _ChatScreenState extends State<ChatScreen> {
           return Center(
             child: CircularProgressIndicator(
               valueColor: new AlwaysStoppedAnimation(
-                Theme
-                    .of(context)
-                    .colorScheme
-                    .primary,
+                Theme.of(context).colorScheme.primary,
               ),
             ),
           );
@@ -247,26 +271,22 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  String getLastMsgText(String lastMsg, String senderId){
-
-    if (lastMsg.toLowerCase().contains("sent a")){
-
-      if (senderId == Constants.FirebaseUID){
+  String getLastMsgText(String lastMsg, String senderId) {
+    if (lastMsg.toLowerCase().contains("sent a")) {
+      if (senderId == Constants.FirebaseUID) {
         return lastMsg;
-      }else{
+      } else {
         return lastMsg.replaceAll("Sent a", "Received a");
       }
-
-    }else{
+    } else {
       return lastMsg;
     }
-
   }
 
   Widget _timeDivider(Timestamp time) {
     DateTime t = time.toDate();
     String minute =
-    t.minute > 9 ? t.minute.toString() : '0' + t.minute.toString();
+        t.minute > 9 ? t.minute.toString() : '0' + t.minute.toString();
     String ampm = t.hour >= 12 ? "PM" : "AM";
     int hour = t.hour >= 12 ? t.hour % 12 : t.hour;
     DateTime press = DateTime.now();

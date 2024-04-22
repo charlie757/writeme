@@ -16,13 +16,12 @@ import '../utils/constant.dart';
 import '../utils/networkhelper.dart';
 import '../utils/util.dart';
 
-
 class ContactList extends StatefulWidget {
-
   bool? isFromCreateGroup = false;
   bool? isReturnUser = false;
 
-  ContactList({ Key? key, this.isFromCreateGroup, this.isReturnUser}) : super(key: key);
+  ContactList({Key? key, this.isFromCreateGroup, this.isReturnUser})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -32,7 +31,6 @@ class ContactList extends StatefulWidget {
 }
 
 class ContactListState extends State<ContactList> {
-
   List<ContactM> users = [];
   // List<SettingsM> originalusers = [];
 
@@ -52,57 +50,48 @@ class ContactListState extends State<ContactList> {
 
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: BaseAppBar(
-            title: Text("contacts".tr),
-            appBar: AppBar(
-            )),
-        body: getMenuList()
-    );
+        appBar: BaseAppBar(title: Text("contacts".tr), appBar: AppBar()),
+        body: getMenuList());
   }
 
   Widget getMenuList() {
     return
-      // MediaQuery.removePadding(
-      //   context: context,
-      //   removeTop: true,
-      //   child:
-        Container(margin: EdgeInsets.only(top: 20), child: ListView.builder(
-          itemBuilder: (context, index) => (InkWell(
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent, //
-              onTap: () {
-
-                if (widget.isFromCreateGroup! && index  == 0) {
-
-                  Get.to( () => CreateGroup());
-
-                }else{
-                  if (widget.isReturnUser!){
-                    var contact = users[index];
-                    Navigator.pop(context, contact);
-                  }else {
-                    var contact = users[index];
-                    moveToChatScreen("+" + contact.phoneNo!);
-                  }
-                }
-
-              },
-              child: getCellItem(index))),
-          itemCount: widget.isFromCreateGroup! ? users.length+1 : users.length,
-          shrinkWrap: true,
-        )
-    );
+        // MediaQuery.removePadding(
+        //   context: context,
+        //   removeTop: true,
+        //   child:
+        Container(
+            margin: const EdgeInsets.only(top: 20),
+            child: ListView.builder(
+              itemBuilder: (context, index) => (InkWell(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent, //
+                  onTap: () {
+                    if (widget.isFromCreateGroup! && index == 0) {
+                      Get.to(() => CreateGroup());
+                    } else {
+                      if (widget.isReturnUser!) {
+                        var contact = users[index];
+                        Navigator.pop(context, contact);
+                      } else {
+                        var contact = users[index];
+                        moveToChatScreen(
+                            "+" + contact.phoneNo!, users[index].id);
+                      }
+                    }
+                  },
+                  child: getCellItem(index))),
+              itemCount:
+                  widget.isFromCreateGroup! ? users.length + 1 : users.length,
+              shrinkWrap: true,
+            ));
   }
 
   Container getCellItem(int idx) {
-
-    if (widget.isFromCreateGroup! &&  idx == 0){
-
+    if (widget.isFromCreateGroup! && idx == 0) {
       return getCreateGroupCell();
-
-    }else {
-
-      ContactM item = users[widget.isFromCreateGroup! ? idx-1 : idx];
+    } else {
+      ContactM item = users[widget.isFromCreateGroup! ? idx - 1 : idx];
 
       return Container(
           margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
@@ -121,109 +110,114 @@ class ContactListState extends State<ContactList> {
                         alignment: Alignment.center,
                         height: 60,
                         width: 60,
-                        child: item.profileImage
-                            .toString()
-                            .isEmpty ? Container(height: 60,
-                            width: 60, child: Image.asset(
-                              'assets/images/user.png',
-                              fit: BoxFit.fill,
-                            )) : CachedNetworkImage(
-                            imageUrl: Constants.IMGURL +
-                                item.profileImage.toString(),
-                            placeholder: (context, url) =>
-                                CupertinoActivityIndicator(),
-                            imageBuilder: (context, image) =>
-                                Container(
-                                  height: 60,
-                                  width: 60,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: image,
-                                      fit: BoxFit.fill,
+                        child: item.profileImage.toString().isEmpty
+                            ? Container(
+                                height: 60,
+                                width: 60,
+                                child: Image.asset(
+                                  'assets/images/user.png',
+                                  fit: BoxFit.fill,
+                                ))
+                            : CachedNetworkImage(
+                                imageUrl: Constants.IMGURL +
+                                    item.profileImage.toString(),
+                                placeholder: (context, url) =>
+                                    CupertinoActivityIndicator(),
+                                imageBuilder: (context, image) => Container(
+                                      height: 60,
+                                      width: 60,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: image,
+                                          fit: BoxFit.fill,
+                                        ),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30)),
+                                      ),
                                     ),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(30)),
-                                  ),
-                                ),
-                            errorWidget: (context, url, error) =>
-                                Container(height: 60,
-                                    width: 60, child: Image.asset(
+                                errorWidget: (context, url, error) => Container(
+                                    height: 60,
+                                    width: 60,
+                                    child: Image.asset(
                                       'assets/images/user.png',
                                       fit: BoxFit.fill,
-                                    )
-                                )
-                        )
+                                    )))),
+                    SizedBox(
+                      width: 15,
                     ),
-                    SizedBox(width: 15,),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                            Util.checkNull(item.name),
+                        Text(Util.checkNull(item.name),
                             textAlign: TextAlign.start,
-                            style: Theme
-                                .of(context)
+                            style: Theme.of(context)
                                 .textTheme
                                 .bodyLarge!
-                                .copyWith(fontWeight: FontWeight.bold,)
-                                .copyWith(color: Colors.black)
+                                .copyWith(
+                                  fontWeight: FontWeight.bold,
+                                )
+                                .copyWith(color: Colors.black)),
+                        SizedBox(
+                          height: 5,
                         ),
-                        SizedBox(height: 5,),
-                        Text(
-                            Util.checkNull(item.phoneNo),
+                        Text(Util.checkNull(item.phoneNo),
                             textAlign: TextAlign.start,
-                            style: Theme
-                                .of(context)
+                            style: Theme.of(context)
                                 .textTheme
                                 .bodyLarge!
-                                .copyWith(fontWeight: FontWeight.normal,)
-                                .copyWith(color: Colors.grey)
-                        ),
-                      ],)
+                                .copyWith(
+                                  fontWeight: FontWeight.normal,
+                                )
+                                .copyWith(color: Colors.grey)),
+                      ],
+                    )
                   ])));
     }
   }
 
-  Container getCreateGroupCell(){
+  Container getCreateGroupCell() {
     return Container(
         margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
         child: Container(
             height: 60,
             margin: EdgeInsets.only(left: 5, right: 10),
             child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                      decoration: BoxDecoration(
-                        // color: Colors.red,
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      alignment: Alignment.center,
-                      height: 60,
-                      width: 60,
-                      child: Container(height: 60,
-                          width: 60, child: Image.asset(
-                            'assets/images/create_group.png',
-                            fit: BoxFit.fill,
-                          ))
-                  ),
-                  SizedBox(width: 15,),
-                      Text(
-                          "create_group".tr,
-                          textAlign: TextAlign.start,
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(fontWeight: FontWeight.bold,)
-                              .copyWith(color: Colors.black)
-                      ),
-                    ],)));
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                    decoration: BoxDecoration(
+                      // color: Colors.red,
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    alignment: Alignment.center,
+                    height: 60,
+                    width: 60,
+                    child: Container(
+                        height: 60,
+                        width: 60,
+                        child: Image.asset(
+                          'assets/images/create_group.png',
+                          fit: BoxFit.fill,
+                        ))),
+                SizedBox(
+                  width: 15,
+                ),
+                Text("create_group".tr,
+                    textAlign: TextAlign.start,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(
+                          fontWeight: FontWeight.bold,
+                        )
+                        .copyWith(color: Colors.black)),
+              ],
+            )));
   }
 
-  moveToChatScreen(String phoneNo) async {
+  moveToChatScreen(String phoneNo, id) async {
     DatabaseHelper dbHelper = DatabaseHelper();
     QuerySnapshot doc = await dbHelper.getUserByEmail(phoneNo);
 
@@ -231,11 +225,10 @@ class ContactListState extends State<ContactList> {
       DocumentSnapshot user = doc.docs[0];
       Map<String, dynamic> userData = user.data() as Map<String, dynamic>;
       Util.getStringValue("FirebaseUID").then((value) {
-        Get.to(() => ChatDetailed(userData, value));
+        Get.to(() => ChatDetailed(id.toString(), userData, value));
       });
     }
   }
-
 
   getContactList() {
     getDataFromServer().then((value) {
@@ -277,6 +270,4 @@ class ContactListState extends State<ContactList> {
 
     return responseStr;
   }
-
 }
-

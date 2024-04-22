@@ -21,11 +21,11 @@ class DatabaseHelper {
   }
 
   Future<String> getUserToken(@required String username) async {
-
-    DocumentSnapshot document = await _db.collection('users').doc(username).get();
+    DocumentSnapshot document =
+        await _db.collection('users').doc(username).get();
     String name = document['token'];
 
-    if (name == null){
+    if (name == null) {
       name = "";
     }
 
@@ -58,8 +58,8 @@ class DatabaseHelper {
 
   getGroupsList(@required String userId) {
     return _db
-        .collection('groups').
-        where('members', arrayContains: Constants.FirebaseUID)
+        .collection('groups')
+        .where('members', arrayContains: Constants.FirebaseUID)
         .orderBy('lastActive', descending: true)
         // .orderBy('createdAt', descending: true)
         .snapshots();
@@ -90,8 +90,10 @@ class DatabaseHelper {
     return msg;
   }
 
-  getChat(@required String userId,
-      @required String myId,) {
+  getChat(
+    @required String userId,
+    @required String myId,
+  ) {
     String chatId = generateChatId(userId, myId);
     return _db
         .collection('chats')
@@ -116,19 +118,22 @@ class DatabaseHelper {
         : username2.toString() + '-' + username1.toString();
   }
 
-  Future<bool> checkChatExistsOrNot(@required String username1,
-      @required String username2) async {
+  Future<bool> checkChatExistsOrNot(
+      @required String username1, @required String username2) async {
     String chatId = generateChatId(username1, username2);
     DocumentSnapshot doc = await _db.collection('chats').doc(chatId).get();
     return doc.exists;
   }
 
-  sendMessage(String to,
-      String from,
-      bool isText,
-      String msg,
-      String path,
-      String videoThumbnail,) async {
+  sendMessage(
+    String id,
+    String to,
+    String from,
+    bool isText,
+    String msg,
+    String path,
+    String videoThumbnail,
+  ) async {
     bool existsOrNot = await checkChatExistsOrNot(to, from);
     FirebaseFirestore tempDb = FirebaseFirestore.instance;
     String chatId = generateChatId(from, to);
@@ -153,10 +158,7 @@ class DatabaseHelper {
         );
         lastMsg = msg;
       } else {
-        String type = path
-            .split('/')
-            .last
-            .toLowerCase();
+        String type = path.split('/').last.toLowerCase();
 
         if (type.contains(".jpg") ||
             type.contains(".jpeg") ||
@@ -187,9 +189,11 @@ class DatabaseHelper {
       await tempDb
           .collection('chats')
           .doc(chatId)
-          .set({'lastActive': now, 'members': members});
-      tempDb.collection('chats').doc(chatId).update(
-          {'lastMessage': lastMsg, "lastSenderId": from});
+          .set({'lastActive': now, 'members': members, 'id': id});
+      tempDb
+          .collection('chats')
+          .doc(chatId)
+          .update({'lastMessage': lastMsg, "lastSenderId": from, 'id': id});
     } else {
       if (isText) {
         await tempDb.collection('chats').doc(chatId).collection('messages').add(
@@ -205,10 +209,7 @@ class DatabaseHelper {
         );
         lastMsg = msg;
       } else {
-        String type = path
-            .split('/')
-            .last
-            .toLowerCase();
+        String type = path.split('/').last.toLowerCase();
 
         if (type.contains(".jpg") ||
             type.contains(".jpeg") ||
@@ -237,21 +238,19 @@ class DatabaseHelper {
         );
         // lastMsg = "Sent a photo";
       }
-      await tempDb.collection('chats').doc(chatId).update(
-          {'lastActive': now, "lastSenderId": from});
-      tempDb.collection('chats').doc(chatId).update({
-        'lastMessage': lastMsg,
-      });
+      await tempDb
+          .collection('chats')
+          .doc(chatId)
+          .update({'lastActive': now, "lastSenderId": from});
+      tempDb
+          .collection('chats')
+          .doc(chatId)
+          .update({'lastMessage': lastMsg, 'id': id});
     }
   }
 
-  sendGroupMessage(String to,
-      String senderName,
-      String from,
-      bool isText,
-      String msg,
-      String path,
-      String videoThumbnail, String groupId) async {
+  sendGroupMessage(String to, String senderName, String from, bool isText,
+      String msg, String path, String videoThumbnail, String groupId) async {
     FirebaseFirestore tempDb = FirebaseFirestore.instance;
     // String chatId = generateChatId(from, to);
     Timestamp now = Timestamp.now();
@@ -265,7 +264,7 @@ class DatabaseHelper {
         {
           'from': from,
           'to': to,
-          'senderName' : senderName,
+          'senderName': senderName,
           'message': msg,
           'time': now,
           'isText': true,
@@ -275,10 +274,7 @@ class DatabaseHelper {
       );
       lastMsg = msg;
     } else {
-      String type = path
-          .split('/')
-          .last
-          .toLowerCase();
+      String type = path.split('/').last.toLowerCase();
 
       if (type.contains(".jpg") ||
           type.contains(".jpeg") ||
@@ -296,7 +292,7 @@ class DatabaseHelper {
       await tempDb.collection('groups').doc(groupId).collection('messages').add(
         {
           'from': from,
-          'senderName' : senderName,
+          'senderName': senderName,
           'to': to,
           'photo': videoThumbnail,
           'time': now,
@@ -343,9 +339,9 @@ class DatabaseHelper {
   }
 
   uploadGroupIconImage(
-      @required File image,
-      @required String groupId,
-      ) async {
+    @required File image,
+    @required String groupId,
+  ) async {
     String extension = image.path.split('/').last;
 
     String filePath = 'groupImages/$groupId/$extension';

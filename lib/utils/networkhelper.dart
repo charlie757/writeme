@@ -20,6 +20,8 @@ class NetworkHelper {
       dio.options.headers["lang"] = Util.isEnglishLan() ? "en" : "de";
 
       var response = await dio.post(urlStr, data: body);
+      print("requestoption...${response.requestOptions}");
+      print("response data...${response.data}");
       responseStr = response.toString();
     } on DioError catch (e) {
       String msg = "something_went_wrong".tr; //e.message;
