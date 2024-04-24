@@ -24,11 +24,11 @@ class Constants {
   static String FCMSERVERKEY =
       'AAAA0UUKApg:APA91bFRMmTat2lDjAeQPwbrdSrTkN545XitAs7HTmG-wE9cTfdHLXJFz3iT910RFA-d8P_3kdEgRipsPcgmIQ3y49ff3n4Ch6WzUjXbsBCg0ERx0l0uax96kmb2f3SrIes6WvmCSYQO';
 
-  // static String BASEURL = 'https://api.writemee.com/api/'; //live
-  static String BASEURL =
-      'https://forthproitsolution.work/writeme/api/'; // local
-  // static String IMGURL = 'https://api.writemee.com/'; //live
-  static String IMGURL = 'https://forthproitsolution.work/writeme/'; // local
+  static String BASEURL = 'https://api.writemee.com/api/'; //live
+  // static String BASEURL =
+  //     'https://forthproitsolution.work/writeme/api/'; // local
+  static String IMGURL = 'https://api.writemee.com/'; //live
+  // static String IMGURL = 'https://forthproitsolution.work/writeme/'; // local
 
   static final LOGINURL = BASEURL + 'androidlogin';
   static final OTPLOGIN = BASEURL + 'otplogin';

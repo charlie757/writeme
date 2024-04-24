@@ -62,7 +62,14 @@ class _ChatDetailedState extends State<ChatDetailed> {
   Color userColor = Color.fromRGBO(236, 240, 244, 1.0);
   Color oppoColor = Color.fromRGBO(119, 0, 174, 1.0);
 
-  List<String> reportTypeList = ['Block', 'Other'];
+  List<String> reportTypeList = [
+    'Inappropriate Behavior',
+    'Spam or Abuse',
+    'Spreading False Information',
+    'Violation of Terms of Service',
+    'Suspicion of Fraudulent Activity',
+    'Other'
+  ];
 
   @override
   void initState() {
