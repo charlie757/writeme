@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -54,7 +55,14 @@ class ContactListState extends State<ContactList> {
         body: getMenuList());
   }
 
+  checkData() {
+    for (int i = 0; i < users.length; i++) {
+      print(users[i].status);
+    }
+  }
+
   Widget getMenuList() {
+    // checkData();
     return
         // MediaQuery.removePadding(
         //   context: context,

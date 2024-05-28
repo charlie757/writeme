@@ -73,6 +73,7 @@ class AppTranslation extends Translations {
           //Contact listing
           "contacts": "Contacts",
           "report": "Report",
+          "block": "Block",
 
           //Create Group
           "create_group": "Create Group",
@@ -122,7 +123,18 @@ class AppTranslation extends Translations {
           "change_language": "Change Language",
           "change": "Change",
           "chats": "Chats",
-          "groups": "Groups"
+          "groups": "Groups",
+          "InappropriateBehavior": "Inappropriate Behavior",
+          "SpamorAbuse": "Spam or Abuse",
+          "SpreadingFalseInformation": "Spreading False Information",
+          "ViolationofTermsofService": "Violation of Terms of Service",
+          "SuspicionofFraudulentActivity": "Suspicion of Fraudulent Activity",
+          "Other": "Other",
+          "Selectreporttype": "Select report type",
+          "selectBlockType": "Select block type",
+          "confirmationOfBlockUser":
+              "Are you sure, you want to block the user?",
+          "Enteryourreasonhere": "Enter your reason here"
         },
         "ar_AR": {
           "oops": "أُووبس",
@@ -193,6 +205,7 @@ class AppTranslation extends Translations {
           //Contact listing
           "contacts": "جهات الاتصال",
           "report": "تقرير",
+          "block": "حاجز",
 
           //Create Group
           "create_group": "إنشاء مجموعة",
@@ -241,6 +254,16 @@ class AppTranslation extends Translations {
 
           "change_language": "تغيير اللغة",
           "change": "يتغير",
+          "InappropriateBehavior": "سلوك غير لائق",
+          "SpamorAbuse": "البريد العشوائي أو إساءة الاستخدام",
+          "SpreadingFalseInformation": "نشر معلومات كاذبة",
+          "ViolationofTermsofService": "انتهاك شروط الخدمة",
+          "SuspicionofFraudulentActivity": "الاشتباه في وجود نشاط احتيالي",
+          "Other": "آخر",
+          "Selectreporttype": "اختر نوع التقرير",
+          "selectBlockType": "حدد نوع الكتلة",
+          "confirmationOfBlockUser": "هل أنت متأكد أنك تريد حظر المستخدم؟",
+          "Enteryourreasonhere": "أدخل السبب الخاص بك هنا"
         },
         'hi_HI': {
           "oops": "उफ़",
@@ -312,6 +335,7 @@ class AppTranslation extends Translations {
           //Contact listing
           "contacts": "संपर्क",
           "report": "प्रतिवेदन",
+          "block": "अवरोध पैदा करना",
 
           //Create Group
           "create_group": "समूह बनाना",
@@ -363,7 +387,19 @@ class AppTranslation extends Translations {
           "change_language": "भाषा बदलें",
           "change": "परिवर्तन",
           "chats": "चैट",
-          "groups": "समूह"
+          "groups": "समूह",
+
+          "InappropriateBehavior": "अनुचित व्यवहार",
+          "SpamorAbuse": "स्पैम या दुरुपयोग",
+          "SpreadingFalseInformation": "झूठी सूचना फैलाना",
+          "ViolationofTermsofService": "सेवा की शर्तों का उल्लंघन",
+          "SuspicionofFraudulentActivity": "धोखाधड़ीपूर्ण गतिविधि का संदेह",
+          "Other": "अन्य",
+          "Selectreporttype": "रिपोर्ट प्रकार चुनें",
+          "selectBlockType": "ब्लॉक प्रकार का चयन करें",
+          "confirmationOfBlockUser":
+              "क्या आप वाकई उपयोगकर्ता को ब्लॉक करना चाहते हैं?",
+          "Enteryourreasonhere": "यहां अपना कारण दर्ज करें"
         },
         'ru_RU': {
           "oops": "Упс",
@@ -435,6 +471,7 @@ class AppTranslation extends Translations {
           //Contact listing
           "contacts": "контакты",
           "report": "Отчет",
+          "block": "Блокировать",
 
           //Create Group
           "create_group": "создать группу",
@@ -485,7 +522,20 @@ class AppTranslation extends Translations {
           "change_language": "Изменить язык",
           "change": "Изменять",
           "chats": "Чаты",
-          "groups": "Группы"
+          "groups": "Группы",
+
+          "InappropriateBehavior": "Ненадлежащее поведение",
+          "SpamorAbuse": "Спам или злоупотребления",
+          "SpreadingFalseInformation": "Распространение ложной информации",
+          "ViolationofTermsofService": "Нарушение Условий обслуживания",
+          "SuspicionofFraudulentActivity":
+              "Подозрение на мошенническую деятельность",
+          "Other": "Другой",
+          "Selectreporttype": "Выберите тип отчета",
+          "selectBlockType": "Выберите тип блока",
+          "confirmationOfBlockUser":
+              "Вы уверены, что хотите заблокировать пользователя?",
+          "Enteryourreasonhere": "Введите причину здесь"
         },
         'sp_SP': {
           "oops": "Ups",
@@ -556,6 +606,7 @@ class AppTranslation extends Translations {
           //Contact listing
           "contacts": "contactos",
           "report": "Informe",
+          "block": "Bloquear",
 
           //Create Group
           "create_group": "crea un grupo",
@@ -607,7 +658,19 @@ class AppTranslation extends Translations {
           "change_language": "cambiar idioma",
           "change": "Cambiar",
           "chats": "charlas",
-          "groups": "Grupos"
+          "groups": "Grupos",
+
+          "InappropriateBehavior": "Comportamiento inapropiado",
+          "SpamorAbuse": "Spam o Abuso",
+          "SpreadingFalseInformation": "Difundir información falsa",
+          "ViolationofTermsofService": "Violación de los Términos de Servicio",
+          "SuspicionofFraudulentActivity": "Sospecha de actividad fraudulenta",
+          "Other": "Otra",
+          "Selectreporttype": "Seleccione el tipo de informe",
+          "selectBlockType": "Seleccionar tipo de bloque",
+          "confirmationOfBlockUser":
+              "¿Estás segura, quieres bloquear a la usuario?",
+          "Enteryourreasonhere": "Introduce tu motivo aquí"
         },
         'de_DE': {
           "oops": "Hoppla",
@@ -678,6 +741,7 @@ class AppTranslation extends Translations {
           //Contact listing
           "contacts": "Kontakte",
           "report": "Bericht",
+          "block": "Block",
 
           //Create Group
           "create_group": "Gruppe erstellen",
@@ -729,7 +793,20 @@ class AppTranslation extends Translations {
           "change_language": "Sprache ändern",
           "change": "Ändern",
           "chats": "Chats",
-          "groups": "Gruppen"
+          "groups": "Gruppen",
+
+          "InappropriateBehavior": "Unangemessenes Verhalten",
+          "SpamorAbuse": "Spam oder Missbrauch",
+          "SpreadingFalseInformation": "Verbreitung falscher Informationen",
+          "ViolationofTermsofService": "Verstoß gegen die Nutzungsbedingungen",
+          "SuspicionofFraudulentActivity":
+              "Verdacht auf betrügerische Aktivitäten",
+          "Other": "Andere",
+          "Selectreporttype": "Wählen Sie den Berichtstyp aus",
+          "selectBlockType": "Blocktyp auswählen",
+          "confirmationOfBlockUser":
+              "Sind Sie sicher, dass Sie den Benutzer blockieren möchten?",
+          "Enteryourreasonhere": "Geben Sie hier Ihren Grund ein"
         },
         'fr_FR': {
           "oops": "Oops",
@@ -801,6 +878,7 @@ class AppTranslation extends Translations {
           //Contact listing
           "contacts": "Contacts",
           "report": "Rapport",
+          "block": "Bloc",
 
           //Create Group
           "create_group": "créer un groupe",
@@ -850,7 +928,19 @@ class AppTranslation extends Translations {
           "change_language": "changer de langue",
           "change": "Changement",
           "chats": "Chats",
-          "groups": "Groupes"
+          "groups": "Groupes",
+
+          "InappropriateBehavior": "Comportement inapproprié",
+          "SpamorAbuse": "Spam ou abus",
+          "SpreadingFalseInformation": "Diffusion de fausses informations",
+          "ViolationofTermsofService": "Violation des conditions d'utilisation",
+          "SuspicionofFraudulentActivity": "Soupçon d'activité frauduleuse",
+          "Other": "Autre",
+          "Selectreporttype": "Sélectionnez le type de rapport",
+          "selectBlockType": "Sélectionnez le type de bloc",
+          "confirmationOfBlockUser":
+              "Etes-vous sûr de vouloir bloquer l'utilisateur ?",
+          "Enteryourreasonhere": "Entrez votre raison ici"
         },
         //chinese
         'zh_ZH': {
@@ -920,6 +1010,7 @@ class AppTranslation extends Translations {
           //Contact listing
           "contacts": "联系人",
           "report": "报告",
+          "block": "堵塞",
 
           //Create Group
           "create_group": "创建组",
@@ -968,7 +1059,18 @@ class AppTranslation extends Translations {
           "change_language": "改变语言",
           "change": "改变",
           "chats": "聊天记录",
-          "groups": "团体"
+          "groups": "团体",
+
+          "InappropriateBehavior": "不当行为",
+          "SpamorAbuse": "垃圾邮件或滥用行为",
+          "SpreadingFalseInformation": "传播虚假信息",
+          "ViolationofTermsofService": "违反服务条款",
+          "SuspicionofFraudulentActivity": "涉嫌欺诈活动",
+          "Other": "其他",
+          "Selectreporttype": "选择报告类型",
+          "selectBlockType": "选择块类型",
+          "confirmationOfBlockUser": "您确定要阻止该用户吗?",
+          "Enteryourreasonhere": "在此输入您的原因"
         }
       };
 }

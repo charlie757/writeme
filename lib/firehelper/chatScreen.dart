@@ -63,7 +63,6 @@ class _ChatScreenState extends State<ChatScreen> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   QuerySnapshot qSnap = snapshot.data as QuerySnapshot;
-
                   List<DocumentSnapshot> docs = qSnap.docs;
                   if (docs.length == 0)
                     return Center(

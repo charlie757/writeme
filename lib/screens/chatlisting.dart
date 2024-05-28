@@ -77,7 +77,7 @@ class ChatListingState extends State<ChatListing> {
                       width: 60,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 15,
                   ),
                   Column(
@@ -93,7 +93,7 @@ class ChatListingState extends State<ChatListing> {
                                 fontWeight: FontWeight.bold,
                               )
                               .copyWith(color: Colors.black)),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text(item.image!,

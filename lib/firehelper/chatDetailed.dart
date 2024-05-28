@@ -48,6 +48,8 @@ class ChatDetailed extends StatefulWidget {
 class _ChatDetailedState extends State<ChatDetailed> {
   late String myId, userId;
   String? selectedReportType;
+  String? selectedBlockType;
+  final blockMessageController = TextEditingController();
   final reportMessageController = TextEditingController();
   late TextEditingController messageController;
   Timestamp past = Timestamp.fromDate(new DateTime(2019));
@@ -63,12 +65,12 @@ class _ChatDetailedState extends State<ChatDetailed> {
   Color oppoColor = Color.fromRGBO(119, 0, 174, 1.0);
 
   List<String> reportTypeList = [
-    'Inappropriate Behavior',
-    'Spam or Abuse',
-    'Spreading False Information',
-    'Violation of Terms of Service',
-    'Suspicion of Fraudulent Activity',
-    'Other'
+    'InappropriateBehavior'.tr,
+    'SpamorAbuse'.tr,
+    'SpreadingFalseInformation'.tr,
+    'ViolationofTermsofService'.tr,
+    'SuspicionofFraudulentActivity'.tr,
+    'Other'.tr
   ];
 
   @override
@@ -138,7 +140,7 @@ class _ChatDetailedState extends State<ChatDetailed> {
                           child: CachedNetworkImage(
                             imageUrl: userData['photo'].toString(),
                             placeholder: (context, url) =>
-                                CupertinoActivityIndicator(),
+                                const CupertinoActivityIndicator(),
                             imageBuilder: (context, image) => Container(
                               height: 40,
                               width: 40,
@@ -148,12 +150,13 @@ class _ChatDetailedState extends State<ChatDetailed> {
                                   fit: BoxFit.cover,
                                 ),
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(20)),
+                                    const BorderRadius.all(Radius.circular(20)),
                               ),
                             ),
-                            errorWidget: (context, url, error) => CircleAvatar(
-                                backgroundColor: Colors.grey,
-                                child: CupertinoActivityIndicator()),
+                            errorWidget: (context, url, error) =>
+                                const CircleAvatar(
+                                    backgroundColor: Colors.grey,
+                                    child: CupertinoActivityIndicator()),
                           )),
                   SizedBox(width: MediaQuery.of(context).size.width * 0.02),
                   Expanded(
@@ -168,10 +171,17 @@ class _ChatDetailedState extends State<ChatDetailed> {
                     return [
                       PopupMenuItem(
                         onTap: () {
-                          showReportSheet();
+                          showReportSheet('report');
                         },
                         child: Text("report".tr),
                         value: '/hello',
+                      ),
+                      PopupMenuItem(
+                        onTap: () {
+                          customDialogBox(context: context);
+                        },
+                        child: Text("block".tr),
+                        value: '/block',
                       ),
                     ];
                   })
@@ -345,7 +355,7 @@ class _ChatDetailedState extends State<ChatDetailed> {
         });
   }
 
-  showReportSheet() {
+  showReportSheet(String route) {
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -363,7 +373,7 @@ class _ChatDetailedState extends State<ChatDetailed> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'report'.tr,
+                      route == 'block' ? 'block'.tr : 'report'.tr,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                           fontSize: 20,
@@ -383,23 +393,32 @@ class _ChatDetailedState extends State<ChatDetailed> {
                               color: Constants.primaryThemeColor, width: 1)),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
+                          isExpanded: true,
                           iconEnabledColor: Constants.primaryThemeColor,
                           padding: const EdgeInsets.only(left: 15, right: 0),
                           value: selectedReportType,
-                          hint: const Text('Select report type'),
+                          hint: Text(route == 'block'
+                              ? 'selectBlockType'.tr
+                              : 'Selectreporttype'.tr),
                           items: reportTypeList.map((String value) {
                             return DropdownMenuItem<String>(
                               enabled: true,
                               value: value,
                               child: Text(
                                 value.toString(),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(),
                               ),
                             );
                           }).toList(),
                           onChanged: (val) {
                             print(val);
-                            selectedReportType = val;
+                            if (route == 'block') {
+                              selectedBlockType = val;
+                            } else {
+                              selectedReportType = val;
+                            }
                             state(() {});
                           },
                         ),
@@ -408,7 +427,7 @@ class _ChatDetailedState extends State<ChatDetailed> {
                     const SizedBox(
                       height: 20,
                     ),
-                    messageTextField(),
+                    messageTextField(route),
                     const SizedBox(
                       height: 20,
                     ),
@@ -421,12 +440,13 @@ class _ChatDetailedState extends State<ChatDetailed> {
         });
   }
 
-  messageTextField() {
+  messageTextField(route) {
     return TextFormField(
       maxLines: 3,
-      controller: reportMessageController,
+      controller:
+          route == 'block' ? blockMessageController : reportMessageController,
       decoration: InputDecoration(
-          hintText: 'Enter your reason here...',
+          hintText: "${'Enteryourreasonhere'.tr}...",
           hintStyle: const TextStyle(fontSize: 14, color: Colors.black38),
           enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
@@ -1008,6 +1028,67 @@ class _ChatDetailedState extends State<ChatDetailed> {
       'type': selectedReportType
     };
     NetworkHelper networkHelper = NetworkHelper(Constants.REPORT_USER);
+    await networkHelper
+        .getServerResponseWithHeader(params, Constants.token)
+        .then((value) {
+      responseStr = value;
+      print(value);
+    });
+
+    return responseStr;
+  }
+
+  Future<void> customDialogBox({
+    required BuildContext context,
+  }) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('confirmationOfBlockUser'.tr),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: [
+                  GestureDetector(
+                    child: Text("yes".tr),
+                    onTap: () {
+                      EasyLoading.show();
+                      sendBlockDetailsOnServer().then((value) {
+                        EasyLoading.dismiss();
+                        var jsonData = json.decode(value);
+                        if (jsonData['status'] == 1) {
+                          Get.back();
+                          Util.showSuccessToast(jsonData['message']);
+                          setState(() {});
+                        } else {
+                          Util.showErrorToast(jsonData['message']);
+                        }
+                        print(value);
+                      });
+                    },
+                  ),
+                  const Padding(padding: EdgeInsets.all(10)),
+                  GestureDetector(
+                    child: Text("no".tr),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  Future<String> sendBlockDetailsOnServer() async {
+    String responseStr = "";
+    // print("userId.....dvdf...$userId");
+    // print("myId...$myId");
+    var params = {
+      'user_id': widget.id,
+    };
+    NetworkHelper networkHelper = NetworkHelper(Constants.BLOCK_USER);
     await networkHelper
         .getServerResponseWithHeader(params, Constants.token)
         .then((value) {

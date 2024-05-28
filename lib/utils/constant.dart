@@ -39,6 +39,8 @@ class Constants {
   static final CONTACT_US = BASEURL + 'inquiry';
   static final DELETE_ACCOUNT = BASEURL + 'deleteAccount';
   static final REPORT_USER = BASEURL + 'userreport';
+  static final BLOCK_USER = BASEURL + 'blockuser';
+  static final GET_BLOCK_LIST = BASEURL + "getBlockUserList";
 
   static final ABOUT_US_EN = IMGURL + 'page/about-us/en';
   static final ABOUT_US_DE = IMGURL + 'page/about-us/de';

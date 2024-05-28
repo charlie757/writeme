@@ -271,6 +271,7 @@ class SignInState extends State<SignIn> with Observer {
       "device_type": Platform.isIOS ? "ios" : "android",
     };
 
+    print(params);
     NetworkHelper networkHelper = NetworkHelper(Constants.LOGINURL);
 
     await networkHelper.getServerResponse(params).then((value) {

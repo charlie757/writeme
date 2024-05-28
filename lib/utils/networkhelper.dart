@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 

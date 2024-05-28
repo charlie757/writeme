@@ -181,15 +181,17 @@ class SettingsState extends State<Settings> {
                       ),
                     ),
                   ),
-                  Text(item.title!.tr,
-                      textAlign: TextAlign.start,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .copyWith(
-                            fontWeight: FontWeight.bold,
-                          )
-                          .copyWith(color: Colors.black)),
+                  Flexible(
+                    child: Text(item.title!.tr,
+                        textAlign: TextAlign.start,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .copyWith(
+                              fontWeight: FontWeight.bold,
+                            )
+                            .copyWith(color: Colors.black, fontSize: 13)),
+                  ),
                 ])));
   }
 
