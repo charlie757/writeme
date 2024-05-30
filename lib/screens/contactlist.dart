@@ -233,7 +233,10 @@ class ContactListState extends State<ContactList> {
       DocumentSnapshot user = doc.docs[0];
       Map<String, dynamic> userData = user.data() as Map<String, dynamic>;
       Util.getStringValue("FirebaseUID").then((value) {
-        Get.to(() => ChatDetailed(id.toString(), userData, value));
+        Get.to(() => ChatDetailed(id.toString(), userData, value))
+            ?.then((value) {
+          getContactList();
+        });
       });
     }
   }

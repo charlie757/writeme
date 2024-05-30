@@ -134,7 +134,10 @@ class AppTranslation extends Translations {
           "selectBlockType": "Select block type",
           "confirmationOfBlockUser":
               "Are you sure, you want to block the user?",
-          "Enteryourreasonhere": "Enter your reason here"
+          "confirmationOfUnBlockUser":
+              "Are you sure, you want to unblock the user?",
+          "Enteryourreasonhere": "Enter your reason here",
+          "blockUser": "Block Users"
         },
         "ar_AR": {
           "oops": "أُووبس",
@@ -263,7 +266,10 @@ class AppTranslation extends Translations {
           "Selectreporttype": "اختر نوع التقرير",
           "selectBlockType": "حدد نوع الكتلة",
           "confirmationOfBlockUser": "هل أنت متأكد أنك تريد حظر المستخدم؟",
-          "Enteryourreasonhere": "أدخل السبب الخاص بك هنا"
+          "confirmationOfUnBlockUser":
+              "هل أنت متأكد أنك تريد إلغاء حظر المستخدم؟",
+          "Enteryourreasonhere": "أدخل السبب الخاص بك هنا",
+          "blockUser": "حظر المستخدم"
         },
         'hi_HI': {
           "oops": "उफ़",
@@ -399,7 +405,10 @@ class AppTranslation extends Translations {
           "selectBlockType": "ब्लॉक प्रकार का चयन करें",
           "confirmationOfBlockUser":
               "क्या आप वाकई उपयोगकर्ता को ब्लॉक करना चाहते हैं?",
-          "Enteryourreasonhere": "यहां अपना कारण दर्ज करें"
+          "confirmationOfUnBlockUser":
+              "क्या आप वाकई उपयोगकर्ता को अनब्लॉक करना चाहते हैं?",
+          "Enteryourreasonhere": "यहां अपना कारण दर्ज करें",
+          "blockUser": "उपयोगकर्ताओं को अवरोधित करें"
         },
         'ru_RU': {
           "oops": "Упс",
@@ -535,7 +544,10 @@ class AppTranslation extends Translations {
           "selectBlockType": "Выберите тип блока",
           "confirmationOfBlockUser":
               "Вы уверены, что хотите заблокировать пользователя?",
-          "Enteryourreasonhere": "Введите причину здесь"
+          "confirmationOfUnBlockUser":
+              "Вы уверены, что хотите разблокировать пользователя?",
+          "Enteryourreasonhere": "Введите причину здесь",
+          "blockUser": "Блокировать пользователей"
         },
         'sp_SP': {
           "oops": "Ups",
@@ -670,7 +682,10 @@ class AppTranslation extends Translations {
           "selectBlockType": "Seleccionar tipo de bloque",
           "confirmationOfBlockUser":
               "¿Estás segura, quieres bloquear a la usuario?",
-          "Enteryourreasonhere": "Introduce tu motivo aquí"
+          "confirmationOfUnBlockUser":
+              "¿Estás seguro de que quieres desbloquear al usuario?",
+          "Enteryourreasonhere": "Introduce tu motivo aquí",
+          "blockUser": "Bloquear usuarias"
         },
         'de_DE': {
           "oops": "Hoppla",
@@ -806,7 +821,10 @@ class AppTranslation extends Translations {
           "selectBlockType": "Blocktyp auswählen",
           "confirmationOfBlockUser":
               "Sind Sie sicher, dass Sie den Benutzer blockieren möchten?",
-          "Enteryourreasonhere": "Geben Sie hier Ihren Grund ein"
+          "confirmationOfUnBlockUser":
+              "Möchten Sie den Benutzer wirklich entsperren?",
+          "Enteryourreasonhere": "Geben Sie hier Ihren Grund ein",
+          "blockUser": "Benutzer blockieren"
         },
         'fr_FR': {
           "oops": "Oops",
@@ -940,7 +958,10 @@ class AppTranslation extends Translations {
           "selectBlockType": "Sélectionnez le type de bloc",
           "confirmationOfBlockUser":
               "Etes-vous sûr de vouloir bloquer l'utilisateur ?",
-          "Enteryourreasonhere": "Entrez votre raison ici"
+          "confirmationOfUnBlockUser":
+              "Etes-vous sûr de vouloir débloquer l'utilisateur ?",
+          "Enteryourreasonhere": "Entrez votre raison ici",
+          "blockUser": "Bloquer les utilisateurs"
         },
         //chinese
         'zh_ZH': {
@@ -1070,7 +1091,9 @@ class AppTranslation extends Translations {
           "Selectreporttype": "选择报告类型",
           "selectBlockType": "选择块类型",
           "confirmationOfBlockUser": "您确定要阻止该用户吗?",
-          "Enteryourreasonhere": "在此输入您的原因"
+          "confirmationOfUnBlockUser": "您确定要解除对该用户的屏蔽吗？",
+          "Enteryourreasonhere": "在此输入您的原因",
+          "blockUser": "阻止用户"
         }
       };
 }

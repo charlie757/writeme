@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:sourcecode/screens/blockuser.dart';
 import 'package:sourcecode/screens/contactus.dart';
 import 'package:sourcecode/screens/langsettings.dart';
 import 'package:sourcecode/screens/updateprofile.dart';
@@ -40,6 +41,7 @@ class SettingsState extends State<Settings> {
     items.add(SettingsM(title: "termscondition", image: "terms.png"));
     items.add(SettingsM(title: "contact_us", image: "contact_us.png"));
     items.add(SettingsM(title: "about_us", image: "about_us.png"));
+    items.add(SettingsM(title: "blockUser", image: "user.png"));
     items.add(SettingsM(title: "logout", image: "logout.png"));
     items.add(SettingsM(title: "delete_account", image: "delete.png"));
   }
@@ -98,6 +100,11 @@ class SettingsState extends State<Settings> {
                   Get.to(() => ContactUs());
                 } else if (index == 7) {
                   getAboutUsURL();
+                } else if (index == 8) {
+                  Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => const BlockUser()));
                 } else if (index == items.length - 2) {
                   customDialogBox(
                       context: context,
