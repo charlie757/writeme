@@ -76,9 +76,9 @@ class _ChatDetailedState extends State<ChatDetailed> {
   @override
   void initState() {
     super.initState();
-    messageController = new TextEditingController();
-    dbHelper = new DatabaseHelper();
-    offlineStorage = new OfflineStorage();
+    messageController = TextEditingController();
+    dbHelper = DatabaseHelper();
+    offlineStorage = OfflineStorage();
     userId = widget.userData['uid'].toString();
     userData = widget.userData;
     myId = widget.currentUserFireId;
@@ -1053,10 +1053,16 @@ class _ChatDetailedState extends State<ChatDetailed> {
                     child: Text("yes".tr),
                     onTap: () {
                       EasyLoading.show();
-                      sendBlockDetailsOnServer().then((value) {
+                      sendBlockDetailsOnServer().then((value) async {
                         EasyLoading.dismiss();
+                        Get.back();
                         var jsonData = json.decode(value);
                         if (jsonData['status'] == 1) {
+                          await dbHelper.sendMessageToBlock(
+                            widget.id.toString(),
+                            userId,
+                            myId,
+                          );
                           Get.back();
                           Util.showSuccessToast(jsonData['message']);
                           setState(() {});

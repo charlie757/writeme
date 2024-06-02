@@ -13,7 +13,6 @@ import '../utils/constant.dart';
 import '../utils/networkhelper.dart';
 import '../utils/util.dart';
 
-
 class UpdateProfile extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -23,7 +22,6 @@ class UpdateProfile extends StatefulWidget {
 }
 
 class UpdateProfileState extends State<UpdateProfile> {
-
   bool isDataEdited = false;
   bool isFileSelected = false;
 
@@ -60,21 +58,28 @@ class UpdateProfileState extends State<UpdateProfile> {
                 icon: Icon(Icons.arrow_back, color: Colors.black),
                 onPressed: () => Navigator.of(context).pop(),
               ),
-              title: Text("update_profile".tr, style: Theme.of(context).textTheme.bodyText2!.copyWith(fontWeight: FontWeight.bold,).copyWith(color: Colors.black)),
+              title: Text("update_profile".tr,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2!
+                      .copyWith(
+                        fontWeight: FontWeight.bold,
+                      )
+                      .copyWith(color: Colors.black)),
             ),
             body: ListView(
               shrinkWrap: true,
-                  children: [
-                    getUserProfileView(),
-                    getNameTextView(),
-                    // SizedBox(height: 10,),
-                    getEmailTextView(),
-                    getPhoneNoTextView(),
-                    // SizedBox(height: 10,),
-                    getMessageTextView(),
-                    getSigninBtn()
-                  ],
-                )));
+              children: [
+                getUserProfileView(),
+                getNameTextView(),
+                // SizedBox(height: 10,),
+                getEmailTextView(),
+                getPhoneNoTextView(),
+                // SizedBox(height: 10,),
+                getMessageTextView(),
+                getSigninBtn()
+              ],
+            )));
   }
 
   Column getUserProfileView() {
@@ -90,52 +95,63 @@ class UpdateProfileState extends State<UpdateProfile> {
               right: 0,
               bottom: 0,
               child: Container(
-                  child: serverImageURL.length > 0 ? CachedNetworkImage(
-                    imageUrl: serverImageURL, //"https://i.imgur.com/7PqjiH7.jpeg1"
-                    imageBuilder: (context, imageProvider) => Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: imageProvider,
-                          fit: BoxFit.cover,
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(75)),
-                      ),
-                    ),
-                    placeholder: (context, url) => CupertinoActivityIndicator(),
-                    errorWidget: (context, url, error) => Image.asset(
-                      'assets/images/profile_placeholder.png',
-                      fit: BoxFit.fill,
-                    ),
-                  ) : (!isFileSelected
-                      ? Container(
-                    child: Image.asset(
-                      'assets/images/profile_placeholder.png',
-                      width: 150,
-                      height: 150,
-                      fit: BoxFit.fill,
-                    ),
-                  )
-                      : CircleAvatar(
-                      radius: 75,
-                      // backgroundColor: Color(0xffFDCF09),
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(75),
-                          child: Image.file(
-                            image!,
-                            width: 150,
-                            height: 150,
-                            fit: BoxFit.cover,
-                          ))))),
+                  child: serverImageURL.length > 0
+                      ? CachedNetworkImage(
+                          imageUrl:
+                              serverImageURL, //"https://i.imgur.com/7PqjiH7.jpeg1"
+                          imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(75)),
+                            ),
+                          ),
+                          placeholder: (context, url) =>
+                              CupertinoActivityIndicator(),
+                          errorWidget: (context, url, error) => Image.asset(
+                            'assets/images/profile_placeholder.png',
+                            fit: BoxFit.fill,
+                          ),
+                        )
+                      : (!isFileSelected
+                          ? Container(
+                              child: Image.asset(
+                                'assets/images/profile_placeholder.png',
+                                width: 150,
+                                height: 150,
+                                fit: BoxFit.fill,
+                              ),
+                            )
+                          : CircleAvatar(
+                              radius: 75,
+                              // backgroundColor: Color(0xffFDCF09),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(75),
+                                  child: Image.file(
+                                    image!,
+                                    width: 150,
+                                    height: 150,
+                                    fit: BoxFit.cover,
+                                  ))))),
             ),
             Positioned(
                 top: 10,
                 right: 18,
-                child: GestureDetector(onTap: () {
-                  showOptionsDialog(context);
-                }, child:Container(width: 25, height: 25, child:  Image.asset(
-                  'assets/images/pencil_icon.png',
-                  fit: BoxFit.fill,
-                ),))),
+                child: GestureDetector(
+                    onTap: () {
+                      showOptionsDialog(context);
+                    },
+                    child: Container(
+                      width: 25,
+                      height: 25,
+                      child: Image.asset(
+                        'assets/images/pencil_icon.png',
+                        fit: BoxFit.fill,
+                      ),
+                    ))),
           ])),
     ]);
   }
@@ -144,104 +160,109 @@ class UpdateProfileState extends State<UpdateProfile> {
     return Container(
         margin: EdgeInsets.only(top: 20, left: 30, right: 30),
         child: GestureDetector(
-            onTap: () {
-              FocusScope.of(context).unfocus();
+          onTap: () {
+            FocusScope.of(context).unfocus();
 
-              if (isDataEdited) {
-                submitData();
-              }
-            },
-            child: Container(
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(25)),
-                  color: Constants.primaryThemeColor),
-              height: 50,
-              child: Text(
-                'submit'.tr,
+            if (isDataEdited) {
+              submitData();
+            }
+          },
+          child: Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(25)),
+                color: Constants.primaryThemeColor),
+            height: 50,
+            child: Text('submit'.tr,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold,).copyWith(color: Colors.black)),
-              ),
-            ));
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(
+                      fontWeight: FontWeight.bold,
+                    )
+                    .copyWith(color: Colors.black)),
+          ),
+        ));
   }
 
-  Widget getNameTextView(){
+  Widget getNameTextView() {
     return Container(
       margin: EdgeInsets.only(top: 30, left: 30, right: 30),
-        height: 50.0,
-        child: TextField(
-                onChanged: (value) {
-                  isDataEdited = true;
-                },
-                controller: nameTC,
-                // keyboardType: TextInputType.phone,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15,
-                    // fontFamily: "Nexa",
-                    fontWeight: FontWeight.w400),
-                decoration: InputDecoration(
-                  counterText: '',
-                  border: OutlineInputBorder(
-                    // borderSide: BorderSide.none,
-                    borderSide: BorderSide(
-                        color: Color.fromRGBO(149, 149, 149, 1), width: 1),
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Color.fromRGBO(149, 149, 149, 1), width: 1),
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  contentPadding: EdgeInsets.only(left: 15, top: 5, right: 15),
-                  hintText: 'name'.tr,
-                  fillColor: Colors.white,
-                  filled: true,
-                  // color: Color.fromRGBO(189, 189, 189, 1.0),
-                ),
-              ),
-            );
+      height: 50.0,
+      child: TextField(
+        onChanged: (value) {
+          isDataEdited = true;
+        },
+        controller: nameTC,
+        // keyboardType: TextInputType.phone,
+        style: TextStyle(
+            color: Colors.black,
+            fontSize: 15,
+            // fontFamily: "Nexa",
+            fontWeight: FontWeight.w400),
+        decoration: InputDecoration(
+          counterText: '',
+          border: OutlineInputBorder(
+            // borderSide: BorderSide.none,
+            borderSide:
+                BorderSide(color: Color.fromRGBO(149, 149, 149, 1), width: 1),
+            borderRadius: BorderRadius.circular(25),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide:
+                BorderSide(color: Color.fromRGBO(149, 149, 149, 1), width: 1),
+            borderRadius: BorderRadius.circular(25),
+          ),
+          contentPadding: EdgeInsets.only(left: 15, top: 5, right: 15),
+          hintText: 'name'.tr,
+          fillColor: Colors.white,
+          filled: true,
+          // color: Color.fromRGBO(189, 189, 189, 1.0),
+        ),
+      ),
+    );
   }
 
-  Widget getEmailTextView(){
+  Widget getEmailTextView() {
     return Container(
-        margin: EdgeInsets.only(top: 10, left: 30, right: 30),
-        height: 50.0,
-        child: TextField(
-                onChanged: (value) {
-                  isDataEdited = true;
-                },
-                controller: emailTC,
-                keyboardType: TextInputType.emailAddress,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15,
-                    // fontFamily: "Nexa",
-                    fontWeight: FontWeight.w400),
-                decoration: InputDecoration(
-                  counterText: '',
-                  border: OutlineInputBorder(
-                    // borderSide: BorderSide.none,
-                    borderSide: BorderSide(
-                        color: Color.fromRGBO(149, 149, 149, 1), width: 1),
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Color.fromRGBO(149, 149, 149, 1), width: 1),
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  contentPadding: EdgeInsets.only(left: 15, top: 5, right: 15),
-                  hintText: 'email'.tr,
-                  fillColor: Colors.white,
-                  filled: true,
-                  // color: Color.fromRGBO(189, 189, 189, 1.0),
-                ),
-              ),
-            );
+      margin: EdgeInsets.only(top: 10, left: 30, right: 30),
+      height: 50.0,
+      child: TextField(
+        onChanged: (value) {
+          isDataEdited = true;
+        },
+        controller: emailTC,
+        keyboardType: TextInputType.emailAddress,
+        style: TextStyle(
+            color: Colors.black,
+            fontSize: 15,
+            // fontFamily: "Nexa",
+            fontWeight: FontWeight.w400),
+        decoration: InputDecoration(
+          counterText: '',
+          border: OutlineInputBorder(
+            // borderSide: BorderSide.none,
+            borderSide:
+                BorderSide(color: Color.fromRGBO(149, 149, 149, 1), width: 1),
+            borderRadius: BorderRadius.circular(25),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide:
+                BorderSide(color: Color.fromRGBO(149, 149, 149, 1), width: 1),
+            borderRadius: BorderRadius.circular(25),
+          ),
+          contentPadding: EdgeInsets.only(left: 15, top: 5, right: 15),
+          hintText: 'email'.tr,
+          fillColor: Colors.white,
+          filled: true,
+          // color: Color.fromRGBO(189, 189, 189, 1.0),
+        ),
+      ),
+    );
   }
 
-  Widget getPhoneNoTextView(){
+  Widget getPhoneNoTextView() {
     return Container(
       margin: EdgeInsets.only(top: 10, left: 30, right: 30),
       height: 50.0,
@@ -258,13 +279,13 @@ class UpdateProfileState extends State<UpdateProfile> {
           counterText: '',
           border: OutlineInputBorder(
             // borderSide: BorderSide.none,
-            borderSide: BorderSide(
-                color: Color.fromRGBO(149, 149, 149, 1), width: 1),
+            borderSide:
+                BorderSide(color: Color.fromRGBO(149, 149, 149, 1), width: 1),
             borderRadius: BorderRadius.circular(25),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: Color.fromRGBO(149, 149, 149, 1), width: 1),
+            borderSide:
+                BorderSide(color: Color.fromRGBO(149, 149, 149, 1), width: 1),
             borderRadius: BorderRadius.circular(25),
           ),
           contentPadding: EdgeInsets.only(left: 15, top: 5, right: 15),
@@ -277,29 +298,29 @@ class UpdateProfileState extends State<UpdateProfile> {
     );
   }
 
-  Widget getMessageTextView(){
+  Widget getMessageTextView() {
     return Container(
         margin: EdgeInsets.only(top: 10, left: 30, right: 30),
         padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Color.fromRGBO(149, 149, 149, 1), width: 1)
-        ),
+            borderRadius: BorderRadius.circular(10),
+            border:
+                Border.all(color: Color.fromRGBO(149, 149, 149, 1), width: 1)),
         height: 100.0,
-              child: TextField(
-                maxLines: 3,
-                onChanged: (value) {
-                  isDataEdited = true;
-                },
-                controller: messageTC,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15,
-                    // fontFamily: "Nexa",
-                    fontWeight: FontWeight.w400),
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  /*border: OutlineInputBorder(
+        child: TextField(
+          maxLines: 3,
+          onChanged: (value) {
+            isDataEdited = true;
+          },
+          controller: messageTC,
+          style: TextStyle(
+              color: Colors.black,
+              fontSize: 15,
+              // fontFamily: "Nexa",
+              fontWeight: FontWeight.w400),
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            /*border: OutlineInputBorder(
                     // borderSide: BorderSide.none,
                     borderSide: BorderSide(
                         color: Color.fromRGBO(149, 149, 149, 1), width: 1),
@@ -310,13 +331,13 @@ class UpdateProfileState extends State<UpdateProfile> {
                         color: Color.fromRGBO(149, 149, 149, 1), width: 1),
                     borderRadius: BorderRadius.circular(25),
                   ),*/
-                  contentPadding: EdgeInsets.only(left: 15, top: 5, right: 15),
-                  hintText: 'message'.tr,
-                  fillColor: Colors.white,
-                  filled: true,
-                  // color: Color.fromRGBO(189, 189, 189, 1.0),
-                ),
-              ));
+            contentPadding: EdgeInsets.only(left: 15, top: 5, right: 15),
+            hintText: 'message'.tr,
+            fillColor: Colors.white,
+            filled: true,
+            // color: Color.fromRGBO(189, 189, 189, 1.0),
+          ),
+        ));
   }
 
   Future<void> showOptionsDialog(BuildContext context) {
@@ -334,7 +355,6 @@ class UpdateProfileState extends State<UpdateProfile> {
                       Get.back();
                       openCamera();
                       // Get.to( () => CameraApp());
-
                     },
                   ),
                   Padding(padding: EdgeInsets.all(10)),
@@ -353,10 +373,10 @@ class UpdateProfileState extends State<UpdateProfile> {
   }
 
   void openCamera() async {
-
     final imgPicker = ImagePicker();
 
-    final XFile? photo = await imgPicker.pickImage(source: ImageSource.camera, imageQuality: 30);
+    final XFile? photo =
+        await imgPicker.pickImage(source: ImageSource.camera, imageQuality: 30);
 
     setState(() {
       isFileSelected = true;
@@ -364,7 +384,6 @@ class UpdateProfileState extends State<UpdateProfile> {
       image = File(photo!.path);
       filePath = photo.path;
       serverImageURL = "";
-
     });
 
     List<int> imageBytes = image!.readAsBytesSync();
@@ -374,7 +393,8 @@ class UpdateProfileState extends State<UpdateProfile> {
   void openGallery() async {
     final imgPicker = ImagePicker();
 
-    final XFile? photo = await imgPicker.pickImage(source: ImageSource.gallery, imageQuality: 30);
+    final XFile? photo = await imgPicker.pickImage(
+        source: ImageSource.gallery, imageQuality: 30);
 
     setState(() {
       isFileSelected = true;
@@ -390,7 +410,6 @@ class UpdateProfileState extends State<UpdateProfile> {
     base64Str = base64Encode(imageBytes);
   }
 
-
   getUserDetails() {
     getUserDetailsFromServer().then((value) {
       print(value);
@@ -400,12 +419,9 @@ class UpdateProfileState extends State<UpdateProfile> {
       var jsonValue = json.decode(value);
 
       if (jsonValue["status"] == 0) {
-
         String errorMsg = jsonValue["message"];
         Util.showErrorToast(errorMsg);
-
       } else {
-
         var response = jsonValue['member_details'];
 
         setState(() {
@@ -423,19 +439,15 @@ class UpdateProfileState extends State<UpdateProfile> {
           // }
         });
       }
-
-
     });
   }
 
-  updateUserDetailsOnFirebase(String image, String name){
-
+  updateUserDetailsOnFirebase(String image, String name) {
     try {
       var authHandler = new Auth();
       var userData = FirebaseAuth.instance.currentUser!;
       print(userData.email);
       authHandler.updateUserData(userData, name, image, Constants.deviceToken);
-
     } catch (e) {
       print(e);
     }
@@ -449,7 +461,6 @@ class UpdateProfileState extends State<UpdateProfile> {
         EasyLoading.dismiss();
 
         if (isSuccess) {
-
           var jsonValue = json.decode(value);
 
           Util.showSuccessToast("profile_updated_successfully".tr);
@@ -460,8 +471,6 @@ class UpdateProfileState extends State<UpdateProfile> {
 
           var img = Util.checkNull(jsonValue['profile_image']);
           updateUserDetailsOnFirebase(img, nameTC.text);
-
-
         } else {
           EasyLoading.dismiss();
         }
@@ -482,7 +491,6 @@ class UpdateProfileState extends State<UpdateProfile> {
 
       if (response != null && response["is_verified"] != "1") {
         Constants.userID = response["user_id"].toString();
-
       }
     } else {
       isSuccess = true;
@@ -508,12 +516,15 @@ class UpdateProfileState extends State<UpdateProfile> {
       "name": nameTC.text,
       "email": emailTC.text,
       "userinfomessage": messageTC.text,
-      "profileimage": base64Str.length == 0 ? "" : "data:image/jpeg;base64,"+base64Str,
+      "profileimage":
+          base64Str.length == 0 ? "" : "data:image/jpeg;base64," + base64Str,
     };
 
     NetworkHelper networkHelper = NetworkHelper(Constants.UPDATE_PROFILE);
 
-    await networkHelper.getServerResponseWithHeader(params, Constants.token).then((value) {
+    await networkHelper
+        .getServerResponseWithHeader(params, Constants.token)
+        .then((value) {
       responseStr = value;
       print(value);
     });
@@ -524,7 +535,8 @@ class UpdateProfileState extends State<UpdateProfile> {
   Future<String> getUserDetailsFromServer() async {
     String responseStr = "";
 
-    NetworkHelper networkHelper = NetworkHelper(Constants.GET_PROFILE+Constants.userID);
+    NetworkHelper networkHelper =
+        NetworkHelper(Constants.GET_PROFILE + Constants.userID);
 
     await networkHelper.getServerResponseWithGET(Constants.token).then((value) {
       responseStr = value;
@@ -544,4 +556,3 @@ class UpdateProfileState extends State<UpdateProfile> {
     messageTC.text = "";
   }
 }
-

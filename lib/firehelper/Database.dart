@@ -52,6 +52,7 @@ class DatabaseHelper {
     return _db
         .collection('chats')
         .where('members', arrayContains: userId)
+        .where('block', isEqualTo: false)
         .orderBy('lastActive', descending: true)
         .snapshots();
   }
@@ -125,6 +126,82 @@ class DatabaseHelper {
     return doc.exists;
   }
 
+  sendMessageToUnBlock(
+    String id,
+    String to,
+    String from,
+  ) async {
+    bool existsOrNot = await checkChatExistsOrNot(to, from);
+    FirebaseFirestore tempDb = FirebaseFirestore.instance;
+    String chatId = generateChatId(from, to);
+    Timestamp now = Timestamp.now();
+
+    // Map<String, dynamic> lastMsg = {};
+    String lastMsg = "";
+
+    if (!existsOrNot) {
+      List<String> members = [to, from];
+      await tempDb
+          .collection('chats')
+          .doc(chatId)
+          .set({'lastActive': now, 'members': members, 'id': id});
+      tempDb.collection('chats').doc(chatId).update({
+        'lastMessage': lastMsg,
+        "lastSenderId": from,
+        'block': false,
+        'id': id,
+      });
+    } else {
+      await tempDb.collection('chats').doc(chatId).update({
+        'lastActive': now,
+        "lastSenderId": from,
+      });
+      tempDb
+          .collection('chats')
+          .doc(chatId)
+          .update({'lastMessage': lastMsg, 'block': false, 'id': id});
+    }
+  }
+
+  sendMessageToBlock(
+    String id,
+    String to,
+    String from,
+  ) async {
+    bool existsOrNot = await checkChatExistsOrNot(to, from);
+    FirebaseFirestore tempDb = FirebaseFirestore.instance;
+    String chatId = generateChatId(from, to);
+    Timestamp now = Timestamp.now();
+
+    // Map<String, dynamic> lastMsg = {};
+    String lastMsg = "";
+
+    if (!existsOrNot) {
+      List<String> members = [to, from];
+      await tempDb
+          .collection('chats')
+          .doc(chatId)
+          .set({'lastActive': now, 'members': members, 'id': id});
+      tempDb.collection('chats').doc(chatId).update({
+        'lastMessage': lastMsg,
+        "lastSenderId": from,
+        'block': true,
+        'id': id,
+        'currentUserToBlockId': Constants.userID
+      });
+    } else {
+      await tempDb.collection('chats').doc(chatId).update({
+        'lastActive': now,
+        "lastSenderId": from,
+        'currentUserToBlockId': Constants.userID
+      });
+      tempDb
+          .collection('chats')
+          .doc(chatId)
+          .update({'lastMessage': lastMsg, 'block': true, 'id': id});
+    }
+  }
+
   sendMessage(
     String id,
     String to,
@@ -185,15 +262,15 @@ class DatabaseHelper {
           },
         );
       }
-      ;
-      await tempDb
-          .collection('chats')
-          .doc(chatId)
-          .set({'lastActive': now, 'members': members, 'id': id});
-      tempDb
-          .collection('chats')
-          .doc(chatId)
-          .update({'lastMessage': lastMsg, "lastSenderId": from, 'id': id});
+
+      await tempDb.collection('chats').doc(chatId).set(
+          {'lastActive': now, 'members': members, 'id': id, 'block': false});
+      tempDb.collection('chats').doc(chatId).update({
+        'lastMessage': lastMsg,
+        "lastSenderId": from,
+        'id': id,
+        'currentUserToBlockId': Constants.userID
+      });
     } else {
       if (isText) {
         await tempDb.collection('chats').doc(chatId).collection('messages').add(
@@ -241,11 +318,12 @@ class DatabaseHelper {
       await tempDb
           .collection('chats')
           .doc(chatId)
-          .update({'lastActive': now, "lastSenderId": from});
-      tempDb
-          .collection('chats')
-          .doc(chatId)
-          .update({'lastMessage': lastMsg, 'id': id});
+          .update({'lastActive': now, "lastSenderId": from, 'block': false});
+      tempDb.collection('chats').doc(chatId).update({
+        'lastMessage': lastMsg,
+        'id': id,
+        'currentUserToBlockId': Constants.userID
+      });
     }
   }
 

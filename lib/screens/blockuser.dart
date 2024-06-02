@@ -1,10 +1,13 @@
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sourcecode/firehelper/Database.dart';
 import 'package:sourcecode/utils/baseappbar.dart';
 import 'package:sourcecode/utils/constant.dart';
 import 'package:sourcecode/utils/networkhelper.dart';
@@ -25,6 +28,40 @@ class _BlockUserState extends State<BlockUser> {
   }
 
   List blockedUserList = [];
+  late DatabaseHelper dbHelper;
+
+  getFirebaseData(String id) async {
+    FirebaseFirestore.instance
+        .collection('chats')
+        .where('id', isEqualTo: id)
+        .where('currentUserToBlockId', isEqualTo: Constants.userID.toString())
+        .get()
+        .then((value) {
+      for (int i = 0; i < value.docs.length; i++) {
+        var doc = value.docs[i];
+        print(doc['currentUserToBlockId']);
+        print(doc.data());
+        print(doc.id);
+        FirebaseFirestore.instance
+            .collection('chats')
+            .doc(doc.id)
+            .collection('messages')
+            .get()
+            .then((subValue) {
+          print("subss...${subValue.docs.length}");
+          if (subValue.docs.isEmpty) {
+            FirebaseFirestore.instance.collection('chats').doc(doc.id).delete();
+          } else {
+            FirebaseFirestore.instance
+                .collection('chats')
+                .doc(doc.id)
+                .update({'block': false});
+          }
+        });
+      }
+      // print(value.docs.);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +74,13 @@ class _BlockUserState extends State<BlockUser> {
             padding: const EdgeInsets.only(top: 20),
             itemBuilder: (context, index) {
               return GestureDetector(
-                onTap: () {
-                  customDialogBox(context: context);
+                onTap: () async {
+                  customDialogBox(
+                      context: context,
+                      id: blockedUserList[index]['id'].toString());
                 },
                 child: Container(
+                    color: Colors.white,
                     margin:
                         const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                     child: Container(
@@ -137,9 +177,8 @@ class _BlockUserState extends State<BlockUser> {
             }));
   }
 
-  Future<void> customDialogBox({
-    required BuildContext context,
-  }) {
+  Future<void> customDialogBox(
+      {required BuildContext context, required String id}) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -151,19 +190,21 @@ class _BlockUserState extends State<BlockUser> {
                   GestureDetector(
                     child: Text("yes".tr),
                     onTap: () {
-                      // EasyLoading.show();
-                      // sendBlockDetailsOnServer().then((value) {
-                      //   EasyLoading.dismiss();
-                      //   var jsonData = json.decode(value);
-                      //   if (jsonData['status'] == 1) {
-                      //     Get.back();
-                      //     Util.showSuccessToast(jsonData['message']);
-                      //     setState(() {});
-                      //   } else {
-                      //     Util.showErrorToast(jsonData['message']);
-                      //   }
-                      //   print(value);
-                      // });
+                      EasyLoading.show();
+                      sendUnBlockDetailsOnServer(id).then((value) async {
+                        EasyLoading.dismiss();
+                        Get.back();
+                        getBlockedUserList();
+                        getFirebaseData(id.toString());
+                        var jsonData = json.decode(value);
+                        if (jsonData['status'] == 1) {
+                          Util.showSuccessToast(jsonData['message']);
+                          setState(() {});
+                        } else {
+                          Util.showErrorToast(jsonData['message']);
+                        }
+                        print(value);
+                      });
                     },
                   ),
                   const Padding(padding: EdgeInsets.all(10)),
@@ -228,7 +269,7 @@ class _BlockUserState extends State<BlockUser> {
     var params = {
       'user_id': id,
     };
-    NetworkHelper networkHelper = NetworkHelper(Constants.BLOCK_USER);
+    NetworkHelper networkHelper = NetworkHelper(Constants.UNBLOCK_USER);
     await networkHelper
         .getServerResponseWithHeader(params, Constants.token)
         .then((value) {

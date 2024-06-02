@@ -32,8 +32,6 @@ class ChatListingState extends State<ChatListing> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-
     return Scaffold(backgroundColor: Colors.white, body: getMenuList());
   }
 
@@ -54,7 +52,7 @@ class ChatListingState extends State<ChatListing> {
     // String imgName = "globe.png";
 
     return Container(
-        margin: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+        margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
         child: Container(
             height: 60,
             margin: EdgeInsets.only(left: 5, right: 10),

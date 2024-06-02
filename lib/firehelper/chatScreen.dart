@@ -122,7 +122,10 @@ class _ChatScreenState extends State<ChatScreen> {
                                       child: Center(
                                         child: Row(
                                           children: [
-                                            _user["photo"].toString().isEmpty
+                                            _user["photo"] == null &&
+                                                    _user["photo"]
+                                                        .toString()
+                                                        .isEmpty
                                                 ? Container(
                                                     height: 50,
                                                     width: 50,

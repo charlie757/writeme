@@ -8,6 +8,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sourcecode/screens/dashboard.dart';
 
 import '../firehelper/Auth.dart';
@@ -19,7 +20,6 @@ import 'signup.dart';
 bool isShowPassword = false;
 
 class VerifyOTP extends StatefulWidget {
-
   bool? isRegister = false;
   var userDetails = null;
 
@@ -50,149 +50,170 @@ class VerifyOTPState extends State<VerifyOTP> {
     // TODO: implement build
 
     return GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: new Scaffold(
-            resizeToAvoidBottomInset: false,
-            backgroundColor: Colors.white,
-            appBar: AppBar(
-              // backgroundColor: Constants.primaryThemeColor,
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back, color: Colors.black),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              title: Text("verify_otp".tr, style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.bold,).copyWith(color: Colors.black)),
-              centerTitle: true,
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: new Scaffold(
+          resizeToAvoidBottomInset: false,
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            // backgroundColor: Constants.primaryThemeColor,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: Colors.black),
+              onPressed: () => Navigator.of(context).pop(),
             ),
-            body: new SafeArea(
+            title: Text("verify_otp".tr,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .copyWith(
+                      fontWeight: FontWeight.bold,
+                    )
+                    .copyWith(color: Colors.black)),
+            centerTitle: true,
+          ),
+          body: new SafeArea(
               left: false,
               top: false,
               right: false,
               bottom: false,
-                      child: Column(
-                        children: [
-                          getTopText(),
-                          getFillOTPText(),
-                          // SizedBox(height: 10,),
-                          getOTPBox(),
-                          Expanded(flex: 1, child: SizedBox(),),
-                          resendOTPText(),
-                          getResentBtn(),
-                          SizedBox(height: 30,),
-                        ],
-                      ))),
-            );
+              child: Column(
+                children: [
+                  getTopText(),
+                  getFillOTPText(),
+                  // SizedBox(height: 10,),
+                  getOTPBox(),
+                  Expanded(
+                    flex: 1,
+                    child: SizedBox(),
+                  ),
+                  resendOTPText(),
+                  getResentBtn(),
+                  SizedBox(
+                    height: 30,
+                  ),
+                ],
+              ))),
+    );
   }
 
   Widget getTopText() {
     return Container(
-            margin: const EdgeInsets.only(top: 30, left: 20, right: 20),
-            child: Text(
-                      'otp_top_code_sent'.tr,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Constants.secondaryThemeColor)),
-               );
+      margin: const EdgeInsets.only(top: 30, left: 20, right: 20),
+      child: Text('otp_top_code_sent'.tr,
+          textAlign: TextAlign.center,
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium!
+              .copyWith(color: Constants.secondaryThemeColor)),
+    );
   }
 
   Widget getFillOTPText() {
     return Container(
       alignment: Alignment.center,
-      margin: const EdgeInsets.only(top: 70,),
-      child: Text(
-          'fill_the_otp'.tr,
+      margin: const EdgeInsets.only(
+        top: 70,
+      ),
+      child: Text('fill_the_otp'.tr,
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headline6!.copyWith(fontWeight: FontWeight.bold,)),
+          style: Theme.of(context).textTheme.headline6!.copyWith(
+                fontWeight: FontWeight.bold,
+              )),
     );
   }
 
   Widget getOTPBox() {
     return Container(
-            height: 100,
-            // width: MediaQuery.of(context).size.width - 50,
-            alignment: Alignment.center,
-            child: Form(
-              key: formKey,
-              child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8.0, horizontal: 25),
-                  child: PinCodeTextField(
-                    textStyle: TextStyle(
-                      fontSize: 25,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    appContext: context,
-                    autoDismissKeyboard: false,
-                    autoFocus: true,
-                    pastedTextStyle: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    length: 6,
-                    obscureText: false,
-                    obscuringCharacter: '*',
-                    obscuringWidget: null,
-                    blinkWhenObscuring: true,
-                    animationType: AnimationType.fade,
-                    validator: (v) {
-                      // if (v!.length < 3) {
-                      //   return "I'm from validator";
-                      // } else {
-                      //   return null;
-                      // }
-                    },
-                    pinTheme: PinTheme(
-                      shape: PinCodeFieldShape.circle,
-                      activeColor: Color.fromRGBO(244, 248, 252, 1.0),
-                      selectedColor: Color.fromRGBO(239, 243, 246, 1.0),
-                      inactiveColor: Color.fromRGBO(239, 243, 246, 1.0),
-                      inactiveFillColor: Color.fromRGBO(239, 243, 246, 1.0),
-                      activeFillColor: Constants.primaryThemeColor,
-                      selectedFillColor: Color.fromRGBO(239, 243, 246, 1.0),
-                      borderRadius: BorderRadius.circular(5),
-                      fieldHeight: 50,
-                      fieldWidth: (MediaQuery.of(context).size.width - 50) / 6,
-                    ),
-                    cursorColor: Color.fromRGBO(213, 221, 224, 1.0),
-                    animationDuration: Duration(milliseconds: 300),
-                    enableActiveFill: true,
-                    // errorAnimationController: errorController,
-                    controller: textEditingController,
-                    keyboardType: TextInputType.number,
+        height: 100,
+        // width: MediaQuery.of(context).size.width - 50,
+        alignment: Alignment.center,
+        child: Form(
+          key: formKey,
+          child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 25),
+              child: PinCodeTextField(
+                textStyle: TextStyle(
+                  fontSize: 25,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+                appContext: context,
+                autoDismissKeyboard: false,
+                autoFocus: true,
+                pastedTextStyle: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+                length: 6,
+                obscureText: false,
+                obscuringCharacter: '*',
+                obscuringWidget: null,
+                blinkWhenObscuring: true,
+                animationType: AnimationType.fade,
+                validator: (v) {
+                  // if (v!.length < 3) {
+                  //   return "I'm from validator";
+                  // } else {
+                  //   return null;
+                  // }
+                },
+                pinTheme: PinTheme(
+                  shape: PinCodeFieldShape.circle,
+                  activeColor: Color.fromRGBO(244, 248, 252, 1.0),
+                  selectedColor: Color.fromRGBO(239, 243, 246, 1.0),
+                  inactiveColor: Color.fromRGBO(239, 243, 246, 1.0),
+                  inactiveFillColor: Color.fromRGBO(239, 243, 246, 1.0),
+                  activeFillColor: Constants.primaryThemeColor,
+                  selectedFillColor: Color.fromRGBO(239, 243, 246, 1.0),
+                  borderRadius: BorderRadius.circular(5),
+                  fieldHeight: 50,
+                  fieldWidth: (MediaQuery.of(context).size.width - 50) / 6,
+                ),
+                cursorColor: Color.fromRGBO(213, 221, 224, 1.0),
+                animationDuration: Duration(milliseconds: 300),
+                enableActiveFill: true,
+                // errorAnimationController: errorController,
+                controller: textEditingController,
+                keyboardType: TextInputType.number,
 
-                    onCompleted: (v) {
-                      print("Completed");
-                      verifyOTP();
-                    },
-                    // onTap: () {
-                    //   print("Pressed");
-                    // },
-                    onChanged: (value) {
-                      print(value);
-                      setState(() {
-                        currentText = value;
-                      });
-                    },
-                    beforeTextPaste: (text) {
-                      print("Allowing to paste $text");
-                      //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-                      //but you can show anything you want here, like your pop up saying wrong paste format or etc
-                      return false;
-                    },
-                  )),
-            ));
+                onCompleted: (v) {
+                  print("Completed");
+                  verifyOTP();
+                },
+                // onTap: () {
+                //   print("Pressed");
+                // },
+                onChanged: (value) {
+                  print(value);
+                  setState(() {
+                    currentText = value;
+                  });
+                },
+                beforeTextPaste: (text) {
+                  print("Allowing to paste $text");
+                  //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
+                  //but you can show anything you want here, like your pop up saying wrong paste format or etc
+                  return false;
+                },
+              )),
+        ));
   }
 
   Widget resendOTPText() {
-    return  Container(
-            height: 50,
-            alignment: Alignment.center,
-            child:
-                  Text(
-                    'dont_get_code'.tr,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodyText2!.copyWith(fontWeight: FontWeight.normal,).copyWith(color: Constants.secondaryThemeColor)),
-                  );
+    return Container(
+      height: 50,
+      alignment: Alignment.center,
+      child: Text('dont_get_code'.tr,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: Theme.of(context)
+              .textTheme
+              .bodyText2!
+              .copyWith(
+                fontWeight: FontWeight.normal,
+              )
+              .copyWith(color: Constants.secondaryThemeColor)),
+    );
   }
 
   Container getResentBtn() {
@@ -205,7 +226,6 @@ class VerifyOTPState extends State<VerifyOTP> {
               FocusScope.of(context).unfocus();
 
               resendOTP();
-
             },
             child: Container(
               alignment: Alignment.center,
@@ -225,12 +245,12 @@ class VerifyOTPState extends State<VerifyOTP> {
             )));
   }
 
-  saveUserInfo(var user) {
-
+  saveUserInfo(var user) async {
     // Constants.token = Util.checkNull(user["token"]);
 
     Constants.userID = user["id"].toString();
-
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('userId', user["id"]);
     Util.saveIntValue("UserID", user["id"]);
 
     Util.saveBooleanValue("IsLogin", true);
@@ -239,13 +259,14 @@ class VerifyOTPState extends State<VerifyOTP> {
     Util.saveStringValue("Name", Util.checkNull(user["name"]));
     Util.saveStringValue("Email", Util.checkNull(user["email"]));
     Util.saveStringValue("Mobile", Constants.mobileNo);
-    Util.saveStringValue("UserPhoto", Constants.IMGURL + Util.checkNull(user["profile_image"]));
+    Util.saveStringValue(
+        "UserPhoto", Constants.IMGURL + Util.checkNull(user["profile_image"]));
   }
 
-  verifyOTP() async{
-
+  verifyOTP() async {
     var authHandler = new Auth();
-    User? user = await authHandler.verifyOTP(Constants.FirebaseVeriID, currentText);
+    User? user =
+        await authHandler.verifyOTP(Constants.FirebaseVeriID, currentText);
 
     if (user != null) {
       if (widget.isRegister!) {
@@ -289,9 +310,8 @@ class VerifyOTPState extends State<VerifyOTP> {
     });*/
   }
 
-  loginOnFirebaseServer(var userDetails) async{
-
-    String phoneNo = "+91"+Constants.mobileNo;
+  loginOnFirebaseServer(var userDetails) async {
+    String phoneNo = "+91" + Constants.mobileNo;
 
     try {
       var authHandler = new Auth();
@@ -320,16 +340,14 @@ class VerifyOTPState extends State<VerifyOTP> {
   }
 
   resendOTP() {
-
     textEditingController.clear();
     currentText = "";
 
-    String phoneNo = "+"+Constants.mobileNo.replaceAll("+", "");
+    String phoneNo = "+" + Constants.mobileNo.replaceAll("+", "");
 
     try {
       var authHandler = new Auth();
       authHandler.handleSignInWithPhoneNo(phoneNo, "");
-
     } catch (e) {
       print(e);
       // switch (e.code) {
@@ -348,7 +366,6 @@ class VerifyOTPState extends State<VerifyOTP> {
       currentText = "";
     });*/
   }
-
 
   Future<bool> parseData(String jsonStr) async {
     bool isSuccess = false;
