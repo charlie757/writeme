@@ -62,7 +62,7 @@ class SettingsState extends State<Settings> {
         title: Text("settings".tr,
             style: Theme.of(context)
                 .textTheme
-                .bodyText1!
+                .bodySmall!
                 .copyWith(
                   fontWeight: FontWeight.bold,
                 )

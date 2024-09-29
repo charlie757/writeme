@@ -119,7 +119,7 @@ class SignInState extends State<SignIn> with Observer {
                   children: [
                     Text("welcome_back".tr,
                         textAlign: TextAlign.left,
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
+                        style: Theme.of(context).textTheme.headlineLarge!.copyWith(
                               fontWeight: FontWeight.bold,
                             )),
                     SizedBox(
@@ -130,7 +130,7 @@ class SignInState extends State<SignIn> with Observer {
                         maxLines: 2,
                         style: Theme.of(context)
                             .textTheme
-                            .bodyText2!
+                            .bodyMedium!
                             .copyWith(
                               fontWeight: FontWeight.normal,
                             )

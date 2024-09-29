@@ -83,8 +83,14 @@ class ContactListState extends State<ContactList> {
                         Navigator.pop(context, contact);
                       } else {
                         var contact = users[index];
-                        moveToChatScreen(
-                            "+" + contact.phoneNo!, users[index].id);
+                        if (contact.phoneNo!.toString().contains('+')) {
+                          print('objectif');
+                          moveToChatScreen(contact.phoneNo!, users[index].id);
+                        } else {
+                          print('objectelse');
+                          moveToChatScreen(
+                              "+" + contact.phoneNo!, users[index].id);
+                        }
                       }
                     }
                   },

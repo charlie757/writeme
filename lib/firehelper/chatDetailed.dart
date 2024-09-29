@@ -119,7 +119,7 @@ class _ChatDetailedState extends State<ChatDetailed> {
               child: Row(
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  userData["photo"].toString().isEmpty
+                  userData["photo"]==null|| userData["photo"].toString().isEmpty
                       ? Container(
                           height: 40,
                           width: 40,
@@ -387,6 +387,7 @@ class _ChatDetailedState extends State<ChatDetailed> {
                     Container(
                       width: double.infinity,
                       height: 50,
+                      padding: const EdgeInsets.only(left: 15, right: 0),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
@@ -395,7 +396,7 @@ class _ChatDetailedState extends State<ChatDetailed> {
                         child: DropdownButton<String>(
                           isExpanded: true,
                           iconEnabledColor: Constants.primaryThemeColor,
-                          padding: const EdgeInsets.only(left: 15, right: 0),
+                          // padding: const EdgeInsets.only(left: 15, right: 0),
                           value: selectedReportType,
                           hint: Text(route == 'block'
                               ? 'selectBlockType'.tr

@@ -58,14 +58,7 @@ class UpdateProfileState extends State<UpdateProfile> {
                 icon: Icon(Icons.arrow_back, color: Colors.black),
                 onPressed: () => Navigator.of(context).pop(),
               ),
-              title: Text("update_profile".tr,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2!
-                      .copyWith(
-                        fontWeight: FontWeight.bold,
-                      )
-                      .copyWith(color: Colors.black)),
+              title: Text("update_profile".tr, style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold,).copyWith(color: Colors.black)),
             ),
             body: ListView(
               shrinkWrap: true,

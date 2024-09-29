@@ -61,7 +61,7 @@ class LangSettingsState extends State<LangSettings> {
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text("change_language".tr, style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.bold,).copyWith(color: Colors.black)),
+        title: Text("change_language".tr, style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold,).copyWith(color: Colors.black)),
       ),
       // body: Column(
       //   children: [

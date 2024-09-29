@@ -50,27 +50,20 @@ class VerifyOTPState extends State<VerifyOTP> {
     // TODO: implement build
 
     return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: new Scaffold(
-          resizeToAvoidBottomInset: false,
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            // backgroundColor: Constants.primaryThemeColor,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.black),
-              onPressed: () => Navigator.of(context).pop(),
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: new Scaffold(
+            resizeToAvoidBottomInset: false,
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+              // backgroundColor: Constants.primaryThemeColor,
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back, color: Colors.black),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              title: Text("verify_otp".tr, style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold,).copyWith(color: Colors.black)),
+              centerTitle: true,
             ),
-            title: Text("verify_otp".tr,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(
-                      fontWeight: FontWeight.bold,
-                    )
-                    .copyWith(color: Colors.black)),
-            centerTitle: true,
-          ),
-          body: new SafeArea(
+            body: new SafeArea(
               left: false,
               top: false,
               right: false,
@@ -115,9 +108,7 @@ class VerifyOTPState extends State<VerifyOTP> {
       ),
       child: Text('fill_the_otp'.tr,
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headline6!.copyWith(
-                fontWeight: FontWeight.bold,
-              )),
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold,)),
     );
   }
 
@@ -200,20 +191,16 @@ class VerifyOTPState extends State<VerifyOTP> {
   }
 
   Widget resendOTPText() {
-    return Container(
-      height: 50,
-      alignment: Alignment.center,
-      child: Text('dont_get_code'.tr,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: Theme.of(context)
-              .textTheme
-              .bodyText2!
-              .copyWith(
-                fontWeight: FontWeight.normal,
-              )
-              .copyWith(color: Constants.secondaryThemeColor)),
-    );
+    return  Container(
+            height: 50,
+            alignment: Alignment.center,
+            child:
+                  Text(
+                    'dont_get_code'.tr,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.normal,).copyWith(color: Constants.secondaryThemeColor)),
+                  );
   }
 
   Container getResentBtn() {

@@ -44,7 +44,7 @@ class CommonWebViewState extends State<CommonWebView> {
             icon: Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          title: Text(widget.title, style: Theme.of(context).textTheme.bodyText2!.copyWith(fontWeight: FontWeight.bold,).copyWith(color: Colors.black)),
+          title: Text(widget.title, style: Theme.of(context).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold,).copyWith(color: Colors.black)),
         ),
         // body: isLoading ? Center(child: CircularProgressIndicator()) : getWebView());
         body:  Stack(

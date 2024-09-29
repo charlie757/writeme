@@ -57,7 +57,7 @@ class ContactUsState extends State<ContactUs> {
               title: Text("contact_us".tr,
                   style: Theme.of(context)
                       .textTheme
-                      .bodyText2!
+                      .bodySmall!
                       .copyWith(
                         fontWeight: FontWeight.bold,
                       )

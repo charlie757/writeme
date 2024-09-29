@@ -134,7 +134,7 @@ class GroupDetailState extends State<GroupDetail> {
           textAlign: TextAlign.start,
           style: Theme.of(context)
               .textTheme
-              .headline6!
+              .headlineLarge!
               .copyWith(
                 fontWeight: FontWeight.bold,
               )
@@ -152,7 +152,7 @@ class GroupDetailState extends State<GroupDetail> {
           textAlign: TextAlign.start,
           style: Theme.of(context)
               .textTheme
-              .headline6!
+              .headlineLarge!
               .copyWith(
                 fontWeight: FontWeight.bold,
               )

@@ -64,7 +64,7 @@ class CreateGroupState extends State<CreateGroup> {
               title: Text("create_group".tr,
                   style: Theme.of(context)
                       .textTheme
-                      .bodyText2!
+                      .bodyMedium!
                       .copyWith(
                         fontWeight: FontWeight.bold,
                       )

@@ -53,7 +53,7 @@ class SignUpState extends State<SignUp> {
         child: Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
-              title: Text("profile".tr, style: Theme.of(context).textTheme.bodyText2!.copyWith(fontWeight: FontWeight.bold,).copyWith(color: Colors.black)),
+              title: Text("profile".tr, style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold,).copyWith(color: Colors.black)),
             ),
             body: Column(
               children: [

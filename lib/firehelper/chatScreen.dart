@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import '../utils/constant.dart';
 import 'Database.dart';
 import 'OfflineStore.dart';
+
 import 'chatDetailed.dart';
 
 class ChatScreen extends StatefulWidget {
